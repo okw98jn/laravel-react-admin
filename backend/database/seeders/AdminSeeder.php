@@ -18,7 +18,7 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
         DB::table('admins')->truncate();
-        for ($i = 1; $i <= 20; $i++) {
+        for ($i = 1; $i <= 50; $i++) {
             DB::table('admins')->insert([
                 'name'       => "admin" . $i,
                 'login_id'   => "admin" . $i,

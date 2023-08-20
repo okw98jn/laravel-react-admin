@@ -26,7 +26,7 @@ const SideBarSmall: React.FC = React.memo(() => {
 const SideBar = styled.aside`
     background-color: #2A3F54;
     width: 70px;
-    height: 100vh;
+    min-height: 100vh;
     padding: 10px 5px;
     color: #ECF0F1;
 `

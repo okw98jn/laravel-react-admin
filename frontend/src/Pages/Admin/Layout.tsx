@@ -23,7 +23,8 @@ const Layout: React.FC = React.memo(() => {
 
 const Wrap = styled.div`
     background-color: #F7F7F7;
-    height: 100vh;
+    min-height: 100vh;
+    height: 100%;
     width: 100%;
     display: flex;
 `

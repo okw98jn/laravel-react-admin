@@ -5,7 +5,7 @@ import { AdminStatusEnum } from '../../../../consts/AdminConst'
 import StatusIcon from '../atoms/StatusIcon';
 
 type TableTdProps = {
-    text?: string | null;
+    text?: string | number | null;
     path?: string;
     status?: AdminStatusEnum.Valid | AdminStatusEnum.InValid | null;
 }

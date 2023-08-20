@@ -12,7 +12,7 @@ const SideBarFull: React.FC = React.memo(() => {
             <Link to="/admin/admin" className='hover:text-white'>
                 <div className='flex justify-center items-center mb-6'>
                     <MainLogo />
-                    <h2 className='text-xl ml-1'>React + Go App</h2>
+                    <h2 className='text-xl ml-1'>Laravel + React</h2>
                 </div>
             </Link>
             <ul>
@@ -27,7 +27,7 @@ const SideBarFull: React.FC = React.memo(() => {
 const SideBar = styled.aside`
     background-color: #2A3F54;
     width: 260px;
-    height: 100vh;
+    min-height: 100vh;
     padding: 10px;
     color: #ECF0F1;
     text-align: center;

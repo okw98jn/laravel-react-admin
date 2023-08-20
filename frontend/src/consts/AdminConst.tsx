@@ -20,8 +20,14 @@ export const SideBarInfo = [
     },
 ]
 
-//アカウントステータス
+//管理者ステータス
 export enum AdminStatusEnum {
-    Valid   = 0,
-    InValid = 1,
+    InValid = 0,
+    Valid   = 1,
+}
+
+//管理者権限
+export enum AdminRole {
+    管理者= 0,
+    一般,
 }
