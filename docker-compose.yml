@@ -1,0 +1,56 @@
+version: '3'
+services:
+  
+  frontend:
+    container_name: frontend
+    build: ./docker/react
+    tty: true
+    volumes:
+      - ./frontend:/src
+    ports:
+      - "5173:5173"
+
+  backend:
+    container_name: backend
+    build: ./docker/php
+    volumes:
+      - ./docker/php/php.ini:/usr/local/php/php.ini
+      - ./backend:/var/www/html
+    depends_on:
+      - db
+
+  nginx:
+    container_name: nginx
+    build: ./docker/nginx
+    ports:
+      - "8000:80"
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./backend:/usr/share/nginx/html
+
+  db:
+    container_name: mysql
+    build: ./docker/mysql
+    ports:
+      - 3306:3306
+    volumes:
+      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+      - mysql-volume:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_USER: ${ROOTUSER}
+      MYSQL_ROOT_PASSWORD: ${ROOTPASS}
+      MYSQL_DATABASE: ${DATABASE}
+      MYSQL_USER: ${USERNAME}
+      MYSQL_PASSWORD: ${USERPASS}
+      TZ: "Asia/Tokyo"
+    env_file:
+      - .env
+
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 8001:80
+
+volumes:
+  mysql-volume:
