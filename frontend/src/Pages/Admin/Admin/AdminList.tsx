@@ -1,18 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import ReactPaginate from 'react-paginate';
 
 import useFetchData from "../../../hooks/useFetchData";
 import { baseUrl } from "../../../consts/CommonConst";
-import { AdminRole } from "../../../consts/AdminConst";
+import { AdminTheadInfo, MAX_PAGE_COUNT } from "../../../consts/AdminConst";
 import Admin from "../../../types/Admin";
-import TableTh from "../components/molecules/TableTh";
-import TableTd from "../components/molecules/TableTd";
-import TableTdBtn from "../components/molecules/TableTdBtn";
 import TableHeader from "../components/molecules/TableHeader";
 import Loading from "../../components/Loading";
+import Thead from "../components/organisms/Thead";
+import Tbody from "./components/Tbody";
+import '../../../css/paginate.scss';
 
 
 const AdminList: React.FC = React.memo(() => {
     const { data: admins, isLoading, error } = useFetchData<Admin>(`${baseUrl}/api/admin/admin/admins`);
+
+    const itemsPerPage: number = MAX_PAGE_COUNT;
+    const [currentItems, setCurrentItems] = useState<Admin[]>([]);
+    const [pageCount, setPageCount] = useState<number>(0);
+    const [itemOffset, setItemOffset] = useState<number>(0);
+
+    useEffect(() => {
+        const endOffset = itemOffset + itemsPerPage;
+        setCurrentItems(admins.slice(itemOffset, endOffset));
+        setPageCount(Math.ceil(admins.length / itemsPerPage));
+    }, [admins, itemOffset, itemsPerPage]);
+
+    const handlePageClick = ({ selected }: { selected: number }) => {
+        const newOffset = selected * itemsPerPage % admins.length;
+        setItemOffset(newOffset);
+    };
 
     if (isLoading) return <Loading />;
     if (error) return <p>エラー</p>;
@@ -21,36 +38,31 @@ const AdminList: React.FC = React.memo(() => {
         <>
             <TableHeader title="管理者一覧" newPath="/admin/admin/new" searchPath="" />
             <table className="min-w-full divide-y divide-gray-200 border-b">
-                <thead className="bg-gray-50">
-                    <tr>
-                        <TableTh title="No" />
-                        <TableTh title="氏名" />
-                        <TableTh title="ログインID" />
-                        <TableTh title="権限" />
-                        <TableTh title="ステータス" />
-                        <TableTh title="登録日" />
-                        <TableTh />
-                    </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200">
-                    {admins.map((admin, key) => {
-                        const createdAtDate      = new Date(admin.created_at);
-                        const formattedCreatedAt = `${createdAtDate.getFullYear()}年${(createdAtDate.getMonth() + 1).toString().padStart(2, '0')}月${createdAtDate.getDate().toString().padStart(2, '0')}日`;
-
-                        return (
-                            <tr key={admin.id} className="hover:bg-gray-200 transition duration-300 ease-in-out cursor-pointer even:bg-gray-50">
-                                <TableTd text={key + 1} path="/aaa" />
-                                <TableTd text={admin.name} path="/aaa" />
-                                <TableTd text={admin.login_id} path="/aaa" />
-                                <TableTd text={AdminRole[admin.role]} path="/aaa" />
-                                <TableTd status={admin.status} path="/aaa" />
-                                <TableTd text={formattedCreatedAt} path="/aaa" />
-                                <TableTdBtn />
-                            </tr>
-                        );
-                    })}
-                </tbody>
+                <Thead trList={AdminTheadInfo} />
+                <Tbody admins={currentItems} />
             </table>
+            <div className="flex justify-center mt-4">
+                <ReactPaginate
+                    nextLabel=">"
+                    previousLabel="<"
+                    breakLabel="..."
+                    pageCount={pageCount}
+                    onPageChange={handlePageClick}
+                    pageRangeDisplayed={3}
+                    marginPagesDisplayed={2}
+                    pageClassName="page-item"
+                    pageLinkClassName="page-link"
+                    previousClassName="page-item"
+                    previousLinkClassName="page-link"
+                    nextClassName="page-item"
+                    nextLinkClassName="page-link"
+                    breakClassName="page-item"
+                    breakLinkClassName="page-link"
+                    containerClassName="pagination"
+                    activeClassName="active"
+                    renderOnZeroPageCount={null}
+                />
+            </div>
         </>
     )
 })

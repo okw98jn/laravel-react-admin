@@ -5,6 +5,8 @@ export enum AdminSideBarStatusEnum {
     User,
 }
 
+export const MAX_PAGE_COUNT = 10;
+
 export const SideBarInfo = [
     {
         key: AdminSideBarStatusEnum.Admin,
@@ -31,3 +33,14 @@ export enum AdminRole {
     管理者= 0,
     一般,
 }
+
+//管理者テーブル情報
+export const AdminTheadInfo = [
+    'No',
+    '氏名',
+    'ログインID',
+    '権限',
+    'ステータス',
+    '登録日',
+    '',
+];
