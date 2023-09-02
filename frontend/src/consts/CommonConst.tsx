@@ -6,3 +6,5 @@ export enum ModalTypeEnum {
     Success  = 0,
     Alert    = 1,
 }
+
+export const MAX_PAGE_COUNT = 10;

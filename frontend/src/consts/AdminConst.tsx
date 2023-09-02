@@ -5,8 +5,6 @@ export enum AdminSideBarStatusEnum {
     User,
 }
 
-export const MAX_PAGE_COUNT = 10;
-
 export const SideBarInfo = [
     {
         key: AdminSideBarStatusEnum.Admin,

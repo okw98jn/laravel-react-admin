@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from "react";
-import ReactPaginate from 'react-paginate';
 
 import useFetchData from "../../../hooks/useFetchData";
 import { baseUrl } from "../../../consts/CommonConst";
-import { AdminTheadInfo, MAX_PAGE_COUNT } from "../../../consts/AdminConst";
+import { MAX_PAGE_COUNT } from "../../../consts/CommonConst";
+import { AdminTheadInfo } from "../../../consts/AdminConst";
 import Admin from "../../../types/Admin";
 import TableHeader from "../components/molecules/TableHeader";
 import Loading from "../../components/Loading";
 import Thead from "../components/organisms/Thead";
 import Tbody from "./components/Tbody";
-import '../../../css/paginate.scss';
-
+import Paginate from "../../components/Paginate";
 
 const AdminList: React.FC = React.memo(() => {
     const { data: admins, isLoading, error } = useFetchData<Admin>(`${baseUrl}/api/admin/admin/admins`);
-
     const itemsPerPage: number = MAX_PAGE_COUNT;
     const [currentItems, setCurrentItems] = useState<Admin[]>([]);
     const [pageCount, setPageCount] = useState<number>(0);
@@ -26,11 +24,6 @@ const AdminList: React.FC = React.memo(() => {
         setPageCount(Math.ceil(admins.length / itemsPerPage));
     }, [admins, itemOffset, itemsPerPage]);
 
-    const handlePageClick = ({ selected }: { selected: number }) => {
-        const newOffset = selected * itemsPerPage % admins.length;
-        setItemOffset(newOffset);
-    };
-
     if (isLoading) return <Loading />;
     if (error) return <p>エラー</p>;
 
@@ -41,28 +34,7 @@ const AdminList: React.FC = React.memo(() => {
                 <Thead trList={AdminTheadInfo} />
                 <Tbody admins={currentItems} />
             </table>
-            <div className="flex justify-center mt-4">
-                <ReactPaginate
-                    nextLabel=">"
-                    previousLabel="<"
-                    breakLabel="..."
-                    pageCount={pageCount}
-                    onPageChange={handlePageClick}
-                    pageRangeDisplayed={3}
-                    marginPagesDisplayed={2}
-                    pageClassName="page-item"
-                    pageLinkClassName="page-link"
-                    previousClassName="page-item"
-                    previousLinkClassName="page-link"
-                    nextClassName="page-item"
-                    nextLinkClassName="page-link"
-                    breakClassName="page-item"
-                    breakLinkClassName="page-link"
-                    containerClassName="pagination"
-                    activeClassName="active"
-                    renderOnZeroPageCount={null}
-                />
-            </div>
+            <Paginate pageCount={pageCount} dataLength={admins.length} itemsPerPage={itemsPerPage} setItemOffset={setItemOffset} />
         </>
     )
 })
