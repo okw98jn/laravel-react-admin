@@ -1,7 +1,5 @@
-import React from 'react'
-import ReactPaginate from 'react-paginate';
-
-import '../../css/paginate.scss';
+import React, { useState } from 'react'
+import { Pagination } from '@mui/material';
 
 type Props = {
     pageCount: number;
@@ -10,33 +8,23 @@ type Props = {
     setItemOffset: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const Paginate: React.FC<Props> = React.memo(({pageCount, dataLength, itemsPerPage, setItemOffset}) => {
-    const handlePageClick = ({ selected }: { selected: number }) => {
-        const newOffset = selected * itemsPerPage % dataLength;
-        setItemOffset(newOffset);
+const Paginate: React.FC<Props> = React.memo(({ pageCount, dataLength, itemsPerPage, setItemOffset }) => {
+    const [page, setPage] = useState(1);
+    const handleChange = (event: React.ChangeEvent<unknown>, page: number) => {
+        setItemOffset((page - 1) * itemsPerPage % dataLength)
+        setPage(page);
     };
 
     return (
-        <div className="flex justify-center mt-4">
-            <ReactPaginate
-                nextLabel=">"
-                previousLabel="<"
-                breakLabel="..."
-                pageCount={pageCount}
-                onPageChange={handlePageClick}
-                pageRangeDisplayed={3}
-                marginPagesDisplayed={2}
-                pageClassName="page-item"
-                pageLinkClassName="page-link"
-                previousClassName="page-item"
-                previousLinkClassName="page-link"
-                nextClassName="page-item"
-                nextLinkClassName="page-link"
-                breakClassName="page-item"
-                breakLinkClassName="page-link"
-                containerClassName="pagination"
-                activeClassName="active"
-                renderOnZeroPageCount={null}
+        <div className="flex justify-center mt-7 items-center">
+            <span className='text-gray-600'>Page: {page}</span>
+            <Pagination
+                count={pageCount}
+                onChange={handleChange}
+                page={page}
+                showFirstButton
+                showLastButton
+            // shape="rounded" 四角
             />
         </div>
     )

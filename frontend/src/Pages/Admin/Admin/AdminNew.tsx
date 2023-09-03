@@ -14,7 +14,7 @@ const AdminNew: React.FC = React.memo(() => {
                         <label className="inline-block  text-gray-800 mt-2.5">名前</label>
                     </div>
                     <div className="col-span-9">
-                        <input className="py-2 px-3 pr-11 block w-full shadow-sm text-sm rounded-lg border-gray-200" />
+                        <input className="border-gray-400 py-2 px-3 pr-11 block w-3/4 shadow-sm text-sm rounded-lg" />
                     </div>
                 </div>
             </div>

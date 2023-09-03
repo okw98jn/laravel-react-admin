@@ -2,8 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import { FiPlus, FiSearch } from 'react-icons/fi';
 
-import GrayBtn from '../../../components/btns/GrayBtn';
-import GreenBtn from '../../../components/btns/GreenBtn';
+import IconBtn from '../../../components/btns/IconBtn';
 
 type Props = {
     title: string;
@@ -20,10 +19,10 @@ const TableHeader: React.FC<Props> = React.memo(({ title, searchPath, newPath })
             <div>
                 <div className="inline-flex gap-x-2">
                     <Link to={searchPath}>
-                        <GrayBtn text="検索" svg={<FiSearch />}/>
+                        <IconBtn text="検索" svg={<FiSearch />} color='info' variant='contained' />
                     </Link>
                     <Link to={newPath}>
-                        <GreenBtn text="追加" svg={<FiPlus />} />
+                        <IconBtn text="追加" svg={<FiPlus />} color='primary' variant='contained' />
                     </Link>
                 </div>
             </div>
