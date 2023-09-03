@@ -24,7 +24,7 @@ const Paginate: React.FC<Props> = React.memo(({ pageCount, dataLength, itemsPerP
                 page={page}
                 showFirstButton
                 showLastButton
-            // shape="rounded" 四角
+                // shape="rounded" //四角
             />
         </div>
     )

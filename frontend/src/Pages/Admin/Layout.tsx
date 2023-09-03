@@ -8,6 +8,9 @@ import Header from './components/Header';
 
 const theme = createTheme({
     palette: {
+        primary: {
+            main: '#435eb8',
+        },
         info: {
             main: '#696969',
         },
@@ -26,11 +29,7 @@ const Layout: React.FC = React.memo(() => {
                 <SideBar />
                 <FlexColumn>
                     <Header />
-                    <div className='p-14 h-full w-3/4'>
-                        <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden pb-7">
-                            <Outlet />
-                        </div>
-                    </div>
+                    <Outlet />
                 </FlexColumn>
             </Wrap>
         </ThemeProvider>

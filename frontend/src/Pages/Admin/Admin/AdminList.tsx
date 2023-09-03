@@ -28,14 +28,16 @@ const AdminList: React.FC = React.memo(() => {
     if (error) return <p>エラー</p>;
 
     return (
-        <>
-            <TableHeader title="管理者一覧" newPath="/admin/admin/new" searchPath="" />
-            <table className="min-w-full divide-y divide-gray-200 border-b">
-                <Thead trList={AdminTheadInfo} />
-                <Tbody admins={currentItems} />
-            </table>
-            <Paginate pageCount={pageCount} dataLength={admins.length} itemsPerPage={itemsPerPage} setItemOffset={setItemOffset} />
-        </>
+        <div className='p-14 h-full w-3/4'>
+            <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden pb-7">
+                <TableHeader title="管理者一覧" newPath="/admin/admin/new" searchPath="" />
+                <table className="min-w-full divide-y divide-gray-200 border-b">
+                    <Thead trList={AdminTheadInfo} />
+                    <Tbody admins={currentItems} />
+                </table>
+                <Paginate pageCount={pageCount} dataLength={admins.length} itemsPerPage={itemsPerPage} setItemOffset={setItemOffset} />
+            </div>
+        </div >
     )
 })
 
