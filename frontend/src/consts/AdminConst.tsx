@@ -26,11 +26,35 @@ export enum AdminStatusEnum {
     Valid   = 1,
 }
 
+//管理者ステータスリスト
+export const AdminStatusList = [
+    {
+        value: 0,
+        text: '無効',
+    },
+    {
+        value: 1,
+        text: '有効',
+    },
+]
+
 //管理者権限
 export enum AdminRole {
-    管理者= 0,
+    管理者 = 0,
     一般,
 }
+
+//管理者権限リスト
+export const AdminRoleList = [
+    {
+        value: 0,
+        text: '管理者',
+    },
+    {
+        value: 1,
+        text: '一般',
+    },
+]
 
 //管理者テーブル情報
 export const AdminTheadInfo = [
