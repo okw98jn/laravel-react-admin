@@ -3,7 +3,6 @@ import Icon from "../components/atoms/Icon";
 import { FaUserCircle } from "react-icons/fa";
 import { FormControlLabel, FormLabel, IconButton, InputAdornment, InputLabel, MenuItem, OutlinedInput, Radio, RadioGroup, TextField } from "@mui/material";
 import { FiPlus } from "react-icons/fi";
-import { Link } from "react-router-dom";
 
 import IconBtn from "../../components/btns/IconBtn";
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -34,7 +33,7 @@ const AdminNew: React.FC = React.memo(() => {
         <div className='p-14 h-full w-2/4'>
             <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden pb-7">
                 <div className="px-12 py-4 mb-8">
-                    <div className="flex items-center flex-col ">
+                    <div className="flex items-center flex-col pt-8">
                         <Icon svg={<FaUserCircle />} color='#2a3f54da' size='40px' />
                         <p className="text-lg text-gray-700 mt-1 mb-8">
                             管理者追加
@@ -101,7 +100,6 @@ const AdminNew: React.FC = React.memo(() => {
                         </div>
                         <div className="w-2/3 mb-4">
                             <IconBtn text="登録" svg={<FiPlus />} color='primary' variant='contained' size="large" />
-                            <Link to={"/admin/admin"} className="text-sm text-blue-600 mt-2 inline-block">戻る</Link>
                         </div>
                     </div>
                 </div>

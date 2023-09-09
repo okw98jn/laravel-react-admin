@@ -11,6 +11,8 @@ class Admin extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $table = 'admins';
+
     protected $fillable = [
         'name',
         'login_id',
