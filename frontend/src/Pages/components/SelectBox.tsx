@@ -33,7 +33,6 @@ const SelectBox: React.FC<Props> = React.memo(({ label, name, isRequired = false
                 {items.map((item) => (
                     <MenuItem key={item.value} value={item.value}>{item.text}</MenuItem>
                 ))}
-
             </Select>
         </FormControl >
     )

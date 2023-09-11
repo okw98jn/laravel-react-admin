@@ -12,10 +12,11 @@ type Props = {
     isRequired?: boolean;
     size?: "small" | "medium";
     items: Item[];
+    defaultChecked: number;
 }
 
-const RadioBtn: React.FC<Props> = React.memo(({ label, name, isRequired = false, items }) => {
-    const [value, setValue] = useState('');
+const RadioBtn: React.FC<Props> = React.memo(({ label, name, isRequired = false, items, defaultChecked }) => {
+    const [value, setValue] = useState(defaultChecked);
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setValue((event.target as HTMLInputElement).value);
     };
