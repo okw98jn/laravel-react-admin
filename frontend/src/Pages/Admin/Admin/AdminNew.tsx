@@ -59,8 +59,8 @@ const AdminNew: React.FC = React.memo(() => {
                                 <div className="w-2/3 mb-7">
                                     <RadioBtn label="ステータス" name="status" isRequired={true} items={AdminStatusList} />
                                 </div>
-                                <div className="w-2/3" onClick={handleSubmit(onSubmit)}>
-                                    <IconBtn text="登録" svg={<FiPlus />} color='primary' variant='contained' size="large" />
+                                <div className="w-2/3">
+                                    <IconBtn text="登録" svg={<FiPlus />} color='primary' variant='contained' size="large" isLoading={false} isSubmit={true} />
                                 </div>
                             </form>
                         </FormProvider>

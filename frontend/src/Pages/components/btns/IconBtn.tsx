@@ -9,9 +9,11 @@ type Props = {
     color: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning';
     variant: "text" | "outlined" | "contained";
     size?: "small" | "medium" | "large";
+    isLoading?: boolean;
+    isSubmit?: boolean;
 }
 
-const IconBtn: React.FC<Props> = React.memo(({ text, svg, color, variant, size = "medium" }) => {
+const IconBtn: React.FC<Props> = React.memo(({ text, svg, color, variant, size = "medium", isLoading = false, isSubmit = false }) => {
     return (
         <LoadingButton
             variant={variant}
@@ -19,6 +21,8 @@ const IconBtn: React.FC<Props> = React.memo(({ text, svg, color, variant, size =
             color={color}
             size={size}
             fullWidth
+            loading={isLoading}
+            type={isSubmit ? 'submit' : 'button'} 
         >
             {text}
         </LoadingButton>

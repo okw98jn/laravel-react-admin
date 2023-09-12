@@ -18,9 +18,8 @@ const InputControl: React.FC<Props> = React.memo(({ label, name, isRequired = fa
             render={({ field: { onChange, value }, fieldState: { error } }) =>
                 <TextField
                     name={name}
-                    label={label}
+                    label={isRequired ? `${label} *` : `${label}`}
                     size={size}
-                    required={isRequired}
                     value={value}
                     fullWidth
                     variant="outlined"

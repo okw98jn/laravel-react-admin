@@ -23,12 +23,11 @@ const SelectBox: React.FC<Props> = React.memo(({ label, name, isRequired = false
             control={control}
             render={({ field: { onChange, value }, fieldState: { error } }) =>
                 <FormControl fullWidth size={size}>
-                    <InputLabel required={isRequired} error={error && true}>{label}</InputLabel>
+                    <InputLabel error={error && true}>{isRequired ? `${label} *` : `${label}`}</InputLabel>
                     <Select
                         value={value}
                         label={label}
                         onChange={onChange}
-                        required={isRequired}
                         error={!!error}
                     >
                         <MenuItem value=''><br /></MenuItem>
