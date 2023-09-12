@@ -1,7 +1,6 @@
 import React from "react";
 import { FormProvider, useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { infer as Infer } from "zod";
 import { z } from 'zod';
 import Icon from "../components/atoms/Icon";
 import { FaUserCircle } from "react-icons/fa";
@@ -13,12 +12,13 @@ import Input from "../../components/InputControl";
 import RadioBtn from "../../components/RadioBtn";
 import SelectBox from "../../components/SelectBox";
 import { AdminRoleList, AdminStatusEnum, AdminStatusList } from "../../../consts/AdminConst";
+import Admin from "../../../types/Admin";
 
-const schema = z.object({
+const validation = z.object({
     name: z.string()
         .nonempty({ message: '名前は必須です' })
         .max(20, { message: '名前は20文字以下である必要があります' }),
-    loginId: z.string()
+    login_id: z.string()
         .nonempty({ message: 'ログインIDは必須です' })
         .max(20, { message: 'ログインIDは20文字以下である必要があります' }),
     password: z.string()
@@ -30,6 +30,7 @@ const schema = z.object({
         ),
     passwordConfirm: z.string()
         .nonempty({ message: 'パスワード(確認)は必須です' }),
+    role: z.number({ invalid_type_error: '権限は必須です' }),
     status: z.number()
 }).superRefine(({ password, passwordConfirm, }, ctx) => {
     if (password !== passwordConfirm) {
@@ -41,22 +42,21 @@ const schema = z.object({
     }
 });
 
-type Schema = Infer<typeof schema>;
-
 const AdminNew: React.FC = React.memo(() => {
-    const useFormMethods = useForm<Schema>({
+    const useFormMethods = useForm<Admin>({
         defaultValues: {
             name: '',
-            loginId: '',
+            login_id: '',
             password: '',
             passwordConfirm: '',
+            role: '',
             status: AdminStatusEnum.Valid
         },
         mode: 'onChange',
-        resolver: zodResolver(schema)
+        resolver: zodResolver(validation)
     });
     const { handleSubmit } = useFormMethods;
-    const onSubmit: SubmitHandler<Schema> = (data: Schema) => {
+    const onSubmit: SubmitHandler<Admin> = (data: Admin) => {
         console.log(data);
     };
 
@@ -73,7 +73,7 @@ const AdminNew: React.FC = React.memo(() => {
                                     <Input label="名前" name="name" isRequired={true} />
                                 </div>
                                 <div className="w-2/3 mb-7">
-                                    <Input label="ログインID" name="loginId" isRequired={true} />
+                                    <Input label="ログインID" name="login_id" isRequired={true} />
                                 </div>
                                 <div className="w-2/3 mb-7">
                                     <PasswordInput />
