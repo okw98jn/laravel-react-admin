@@ -17,7 +17,7 @@ const PasswordInput: React.FC<Props> = React.memo(({ isConfirm = false }) => {
     return (
         <FormControl fullWidth variant="outlined" size="small">
             <Controller
-                name={isConfirm ? 'password_confirm' : 'password'}
+                name={isConfirm ? 'passwordConfirm' : 'password'}
                 control={control}
                 render={({ field: { onChange, value }, fieldState: { error } }) =>
                     <>

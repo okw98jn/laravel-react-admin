@@ -18,7 +18,7 @@ const schema = z.object({
     name: z.string()
         .nonempty({ message: '名前は必須です' })
         .max(20, { message: '名前は20文字以下である必要があります' }),
-    login_id: z.string()
+    loginId: z.string()
         .nonempty({ message: 'ログインIDは必須です' })
         .max(20, { message: 'ログインIDは20文字以下である必要があります' }),
     password: z.string()
@@ -28,13 +28,13 @@ const schema = z.object({
             /^(?=.*?[a-z])(?=.*?\d)[a-z\d]{8,100}$/i,
             'パスワードは半角英数字混合で入力してください'
         ),
-    password_confirm: z.string()
+    passwordConfirm: z.string()
         .nonempty({ message: 'パスワード(確認)は必須です' }),
-    status: z.string()
-}).superRefine(({ password, password_confirm, }, ctx) => {
-    if (password !== password_confirm) {
+    status: z.number()
+}).superRefine(({ password, passwordConfirm, }, ctx) => {
+    if (password !== passwordConfirm) {
         ctx.addIssue({
-            path: ['password_confirm'],
+            path: ['passwordConfirm'],
             code: 'custom',
             message: 'パスワードが一致しません',
         });
@@ -47,11 +47,12 @@ const AdminNew: React.FC = React.memo(() => {
     const useFormMethods = useForm<Schema>({
         defaultValues: {
             name: '',
-            login_id: '',
+            loginId: '',
             password: '',
-            password_confirm: '',
-            status: ''
+            passwordConfirm: '',
+            status: AdminStatusEnum.Valid
         },
+        mode: 'onChange',
         resolver: zodResolver(schema)
     });
     const { handleSubmit } = useFormMethods;
@@ -72,7 +73,7 @@ const AdminNew: React.FC = React.memo(() => {
                                     <Input label="名前" name="name" isRequired={true} />
                                 </div>
                                 <div className="w-2/3 mb-7">
-                                    <Input label="ログインID" name="login_id" isRequired={true} />
+                                    <Input label="ログインID" name="loginId" isRequired={true} />
                                 </div>
                                 <div className="w-2/3 mb-7">
                                     <PasswordInput />
@@ -84,7 +85,7 @@ const AdminNew: React.FC = React.memo(() => {
                                     <SelectBox label="権限" name="role" isRequired={true} items={AdminRoleList} />
                                 </div>
                                 <div className="w-2/3 mb-7">
-                                    <RadioBtn label="ステータス" name="status" isRequired={true} items={AdminStatusList} defaultChecked={AdminStatusEnum.Valid} />
+                                    <RadioBtn label="ステータス" name="status" isRequired={true} items={AdminStatusList} />
                                 </div>
                                 <div className="w-2/3" onClick={handleSubmit(onSubmit)}>
                                     <IconBtn text="登録" svg={<FiPlus />} color='primary' variant='contained' size="large" />

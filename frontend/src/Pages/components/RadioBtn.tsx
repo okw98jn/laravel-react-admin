@@ -1,5 +1,6 @@
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
-import React, { useState } from 'react'
+import React from 'react'
+import { Controller, useFormContext } from 'react-hook-form';
 
 type Item = {
     value: number;
@@ -12,30 +13,35 @@ type Props = {
     isRequired?: boolean;
     size?: "small" | "medium";
     items: Item[];
-    defaultChecked: number;
+    // defaultChecked: number;
 }
 
-const RadioBtn: React.FC<Props> = React.memo(({ label, name, isRequired = false, items, defaultChecked }) => {
-    const [value, setValue] = useState(defaultChecked);
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue((event.target as HTMLInputElement).value);
-    };
-
+const RadioBtn: React.FC<Props> = React.memo(({ label, name, isRequired = false, items }) => {
+    const { control } = useFormContext();
     return (
-        <FormControl>
-            <FormLabel required={isRequired}>{label}</FormLabel>
-            <RadioGroup
-                name={name}
-                value={value}
-                onChange={handleChange}
-            >
-                <div>
-                    {items.map((item) => (
-                        <FormControlLabel key={item.value} value={item.value} control={<Radio />} label={item.text} />
-                    ))}
-                </div>
-            </RadioGroup>
-        </FormControl>
+        <Controller
+            name={name}
+            control={control}
+            render={({ field: { onChange, value } }) =>
+                <FormControl>
+                    <FormLabel required={isRequired}>{label}</FormLabel>
+                    <RadioGroup
+                        value={value}
+                        onChange={(e) => {
+                            const radioValue = parseInt(e.target.value)
+                            if (!isNaN(radioValue)) {
+                                onChange(radioValue)
+                            }
+                        }}
+                    >
+                        <div>
+                            {items.map((item) => (
+                                <FormControlLabel key={item.value} value={item.value} control={<Radio />} label={item.text} />
+                            ))}
+                        </div>
+                    </RadioGroup>
+                </FormControl>}
+        />
     )
 })
 
