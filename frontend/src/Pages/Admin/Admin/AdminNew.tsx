@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { FormProvider, useForm, SubmitHandler } from "react-hook-form";
+import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Icon from "../components/atoms/Icon";
 import { FaUserCircle } from "react-icons/fa";
@@ -13,6 +14,7 @@ import SelectBox from "../../components/SelectBox";
 import { AdminRoleList, AdminStatusEnum, AdminStatusList } from "../../../consts/AdminConst";
 import Admin from "../../../types/Admin";
 import StoreValidation from "../../../Validation/Admin/Admin/StoreValidation";
+import { API_URL } from "../../../consts/CommonConst";
 
 const AdminNew: React.FC = React.memo(() => {
     const useFormMethods = useForm<Admin>({
@@ -27,9 +29,21 @@ const AdminNew: React.FC = React.memo(() => {
         mode: 'onChange',
         resolver: zodResolver(StoreValidation)
     });
-    const { handleSubmit } = useFormMethods;
-    const onSubmit: SubmitHandler<Admin> = (data: Admin) => {
-        console.log(data);
+    const [isLoading, setIsLoading] = useState(false);
+    // const [error, setError]         = useState(false);
+
+    const { handleSubmit, reset } = useFormMethods;
+    const onSubmit: SubmitHandler<Admin> = async(data: Admin) => {
+        setIsLoading(true)
+        await axios.post(`${API_URL}/api/admin/admin/admin`, data)
+        .then((res) => {
+            setIsLoading(false);
+            reset();
+            console.log(res, '成功');
+        }).catch(error => {
+            setIsLoading(false);
+            console.log(error);
+        })
     };
 
     return (
@@ -60,7 +74,7 @@ const AdminNew: React.FC = React.memo(() => {
                                     <RadioBtn label="ステータス" name="status" isRequired={true} items={AdminStatusList} />
                                 </div>
                                 <div className="w-2/3">
-                                    <IconBtn text="登録" svg={<FiPlus />} color='primary' variant='contained' size="large" isLoading={false} isSubmit={true} />
+                                    <IconBtn text="登録" svg={<FiPlus />} color='primary' variant='contained' size="large" isLoading={isLoading} isSubmit={true} />
                                 </div>
                             </form>
                         </FormProvider>

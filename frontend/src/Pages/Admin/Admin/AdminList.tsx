@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import useFetchData from "../../../hooks/useFetchData";
-import { baseUrl } from "../../../consts/CommonConst";
+import { API_URL } from "../../../consts/CommonConst";
 import { MAX_PAGE_COUNT } from "../../../consts/CommonConst";
 import { AdminTheadInfo } from "../../../consts/AdminConst";
 import Admin from "../../../types/Admin";
@@ -12,7 +12,7 @@ import Tbody from "./components/Tbody";
 import Paginate from "../../components/Paginate";
 
 const AdminList: React.FC = React.memo(() => {
-    const { data: admins, isLoading, error } = useFetchData<Admin>(`${baseUrl}/api/admin/admin/admins`);
+    const { data: admins, isLoading, error } = useFetchData<Admin>(`${API_URL}/api/admin/admin/admins`);
     const itemsPerPage: number = MAX_PAGE_COUNT;
     const [currentItems, setCurrentItems] = useState<Admin[]>([]);
     const [pageCount, setPageCount] = useState<number>(0);

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Repositories\Admin\Admin\AdminRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -26,6 +27,29 @@ class AdminController extends Controller
         } catch (Exception $e) {
             Log::error($e->getMessage());
             return response()->json([], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
-        } 
+        }
+    }
+
+    public function storeAdmin(Request $request)
+    {
+        try {
+            $attributes             = $request->only(['name', 'login_id', 'password', 'role', 'status']);
+            $attributes['password'] = Hash::make($request->input('password'));
+            $admin                  = $this->adminRepository->create($attributes);
+            return response()->json($admin, JsonResponse::HTTP_OK);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json([], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    public function loginIdDuplicateCheck(Request $request)
+    {
+        try {
+            return response()->json($request, JsonResponse::HTTP_OK);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json([], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }
