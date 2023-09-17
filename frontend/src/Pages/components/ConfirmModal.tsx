@@ -12,22 +12,24 @@ type Props = {
     type: ModalTypeEnum.Alert | ModalTypeEnum.Success;
     title?: string;
     text: string;
+    handleSubmit: (e:React.FormEvent<HTMLFormElement>, id: number) => void;
+    id: number;
     leftBtnText?: string;
     rightBtnText: string;
 }
 
-const ConfirmModal: React.FC<Props> = React.memo(({ isModalOpen, setIsModalOpen, type, title = '確認', text, leftBtnText = 'キャンセル', rightBtnText }) => {
+const ConfirmModal: React.FC<Props> = React.memo(({ isModalOpen, setIsModalOpen, type, title = '確認', text, handleSubmit, id, leftBtnText = 'キャンセル', rightBtnText }) => {
     const rightButtonColor: string = type === ModalTypeEnum.Alert ? 'bg-red-400 hover:bg-red-500' : 'bg-blue-400 hover:bg-blue-600';
-    
     return (
         <CSSTransition
             in={isModalOpen}
-            timeout={150}
+            timeout={120}
             classNames="fade"
             unmountOnExit
         >
+
             <div className="w-full h-full fixed top-0 left-0 z-[60] overflow-x-hidden overflow-y-auto bg-gray-800 bg-opacity-50 cursor-default">
-                <div className="mt-14 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
+                <div className="mt-32 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
                     <div className="flex flex-col bg-white border shadow-sm rounded-xl">
                         <div className="flex justify-between items-center py-3 px-4 border-b">
                             <p className="font-bold text-gray-800">{title}</p>
@@ -40,12 +42,14 @@ const ConfirmModal: React.FC<Props> = React.memo(({ isModalOpen, setIsModalOpen,
                         </div>
                         <div className="flex justify-end items-center gap-x-2 py-3 px-4 border-t">
                             <button className="w-28 py-3 px-4 rounded-md border text-gray-700 shadow-sm align-middle hover:bg-gray-50 transition duration-300 ease-in-out text-sm" onClick={() => setIsModalOpen(false)}>{leftBtnText}</button>
-                            <button className={`w-28 py-3 px-4 rounded-md border shadow-sm align-middle text-white transition duration-300 ease-in-out text-sm ${rightButtonColor}`}>{rightBtnText}</button>
+                            <form onSubmit={e => handleSubmit(e, id)}>
+                                <button className={`w-28 py-3 px-4 rounded-md border shadow-sm align-middle text-white transition duration-300 ease-in-out text-sm ${rightButtonColor}`}>{rightBtnText}</button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-        </CSSTransition>
+        </CSSTransition >
     );
 })
 

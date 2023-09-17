@@ -28,7 +28,7 @@ type Admin = {
 
 const AdminNew: React.FC = React.memo(() => {
     const [isLoading, setIsLoading] = useState(false);
-    const { openSnackbar }          = useSnackbar()
+    const { openSnackbar }          = useSnackbar();
     const navigate                  = useNavigate();
 
     const useFormMethods = useForm<Admin>({

@@ -56,4 +56,15 @@ class AdminController extends Controller
             return response()->json([], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    public function delete(Request $request)
+    {
+        try {
+            $this->adminRepository->delete($request->id);
+            return response()->json([], JsonResponse::HTTP_OK);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json([], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }

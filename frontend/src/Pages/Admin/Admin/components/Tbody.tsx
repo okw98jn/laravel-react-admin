@@ -25,7 +25,7 @@ const Tbody: React.FC<Props> = React.memo(({ admins }) => {
                         <TableTd text={AdminRole[admin.role]} path={`/admin/admin/${admin.id}`} />
                         <TableTd status={admin.status} path={`/admin/admin/${admin.id}`} />
                         <TableTd text={formattedCreatedAt} path={`/admin/admin/${admin.id}`} />
-                        <TableTdBtn />
+                        <TableTdBtn id={admin.id} modalTitle="管理者を削除しますか？"/>
                     </tr>
                 );
             })}

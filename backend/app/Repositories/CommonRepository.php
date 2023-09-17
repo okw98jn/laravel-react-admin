@@ -30,4 +30,9 @@ class CommonRepository
     {
         return $this->model->where($where)->exists();
     }
+
+    public function delete($id)
+    {
+        $this->model->find($id)->delete();
+    }
 }

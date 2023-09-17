@@ -9,4 +9,6 @@ interface AdminRepositoryInterface
     public function create(array $data);
 
     public function dataExists(array $where);
+
+    public function delete($id);
 }
