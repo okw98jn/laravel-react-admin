@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { FormProvider, useForm, SubmitHandler } from "react-hook-form";
-import {useNavigate} from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Icon from "../components/atoms/Icon";
 import { FaUserCircle } from "react-icons/fa";
 import { FiPlus } from "react-icons/fi";
 
+import Icon from "../components/atoms/Icon";
 import IconBtn from "../../components/btns/IconBtn";
 import PasswordInput from "../../components/PasswordInput";
 import Input from "../../components/InputControl";
@@ -41,19 +40,18 @@ const AdminNew: React.FC = React.memo(() => {
     });
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
-    // const [error, setError]         = useState(false);
 
     const { handleSubmit } = useFormMethods;
-    const onSubmit: SubmitHandler<Admin> = async(data: Admin) => {
+    const onSubmit: SubmitHandler<Admin> = (data: Admin) => {
         setIsLoading(true)
-        await axios.post(`${API_URL}/api/admin/admin/admin`, data)
-        .then((res) => {
-            setIsLoading(false);
-            navigate(`/admin/admin/${res.data.id}`)
-        }).catch(error => {
-            setIsLoading(false);
-            console.log(error);
-        })
+        axios.post(`${API_URL}/api/admin/admin/admin`, data)
+            .then((res) => {
+                setIsLoading(false);
+                navigate(`/admin/admin/${res.data.id}`)
+            }).catch(error => {
+                setIsLoading(false);
+                console.log(error);
+            })
     };
 
     return (

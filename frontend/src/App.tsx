@@ -6,6 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import { AdminRoutes } from "./router";
 import "./css/app.scss";
 import "./css/index.css";
+import { CustomSnackbar } from "./Pages/components/CustomSnackbar";
 
 export const App: React.FC = () => {
   return (
@@ -13,6 +14,7 @@ export const App: React.FC = () => {
       <BrowserRouter>
         <AdminRoutes />
       </BrowserRouter>
+      <CustomSnackbar />
     </RecoilRoot>
   );
 };
