@@ -36,10 +36,9 @@ const AdminNew: React.FC = React.memo(() => {
     const onSubmit: SubmitHandler<Admin> = async(data: Admin) => {
         setIsLoading(true)
         await axios.post(`${API_URL}/api/admin/admin/admin`, data)
-        .then((res) => {
+        .then(() => {
             setIsLoading(false);
             reset();
-            console.log(res, '成功');
         }).catch(error => {
             setIsLoading(false);
             console.log(error);

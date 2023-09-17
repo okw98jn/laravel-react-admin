@@ -42,11 +42,15 @@ class AdminController extends Controller
             return response()->json([], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     public function loginIdDuplicateCheck(Request $request)
     {
         try {
-            return response()->json($request, JsonResponse::HTTP_OK);
+            $where = [
+                ['login_id', $request->login_id]
+            ];
+            $loginIdExists = $this->adminRepository->dataExists($where);
+            return response()->json($loginIdExists, JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             Log::error($e->getMessage());
             return response()->json([], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);

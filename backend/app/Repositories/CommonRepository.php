@@ -25,4 +25,9 @@ class CommonRepository
             return $this->model->create($data);
         });
     }
+
+    public function dataExists(array $where)
+    {
+        return $this->model->where($where)->exists();
+    }
 }

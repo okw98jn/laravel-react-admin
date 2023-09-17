@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { z } from 'zod';
+
 import { API_URL } from '../../../consts/CommonConst';
 
 const StoreValidation = z.object({
@@ -14,13 +15,19 @@ const StoreValidation = z.object({
             'ログインIDは半角英数字で入力してください'
         )
         .superRefine(async (login_id, ctx) => {
-            await axios.post(`${API_URL}/api/admin/admin/login_id_duplicate_check`, login_id)
+            let loginIdExists: boolean = false;
+            await axios.post(`${API_URL}/api/admin/admin/login_id_duplicate_check`, { login_id: login_id })
                 .then((res) => {
-                    console.log(res, '成功');
+                    loginIdExists = res.data && true;
                 }).catch(error => {
                     console.log(error);
                 })
-            return true;
+            if (loginIdExists) {
+                ctx.addIssue({
+                    code: 'custom',
+                    message: 'ログインIDは既に使用されています',
+                });
+            }
         }),
     password: z.string()
         .nonempty({ message: 'パスワードは必須です' })
