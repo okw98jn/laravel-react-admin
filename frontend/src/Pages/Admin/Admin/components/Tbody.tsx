@@ -19,12 +19,12 @@ const Tbody: React.FC<Props> = React.memo(({ admins }) => {
 
                 return (
                     <tr key={admin.id} className="hover:bg-gray-200 transition duration-300 ease-in-out cursor-pointer even:bg-gray-50">
-                        <TableTd text={admin.id} path="/aaa" />
-                        <TableTd text={admin.name} path="/aaa" />
-                        <TableTd text={admin.login_id} path="/aaa" />
-                        <TableTd text={AdminRole[admin.role]} path="/aaa" />
-                        <TableTd status={admin.status} path="/aaa" />
-                        <TableTd text={formattedCreatedAt} path="/aaa" />
+                        <TableTd text={admin.id} path={`/admin/admin/${admin.id}`} />
+                        <TableTd text={admin.name} path={`/admin/admin/${admin.id}`} />
+                        <TableTd text={admin.login_id} path={`/admin/admin/${admin.id}`} />
+                        <TableTd text={AdminRole[admin.role]} path={`/admin/admin/${admin.id}`} />
+                        <TableTd status={admin.status} path={`/admin/admin/${admin.id}`} />
+                        <TableTd text={formattedCreatedAt} path={`/admin/admin/${admin.id}`} />
                         <TableTdBtn />
                     </tr>
                 );

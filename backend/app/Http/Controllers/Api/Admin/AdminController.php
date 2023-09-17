@@ -36,7 +36,7 @@ class AdminController extends Controller
             $attributes             = $request->only(['name', 'login_id', 'password', 'role', 'status']);
             $attributes['password'] = Hash::make($request->input('password'));
             $admin                  = $this->adminRepository->create($attributes);
-            return response()->json($admin, JsonResponse::HTTP_OK);
+            return response()->json(['id' => $admin->id], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             Log::error($e->getMessage());
             return response()->json([], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);

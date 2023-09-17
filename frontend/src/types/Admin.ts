@@ -3,9 +3,8 @@ type Admin = {
     name: string;
     login_id: string;
     password: string;
-    passwordConfirm: string;
     status: number;
-    role: number | '';
+    role: number;
     deleted_at: string | null;
     created_at: string;
     updated_at: string;

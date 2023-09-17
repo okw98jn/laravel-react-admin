@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { FormProvider, useForm, SubmitHandler } from "react-hook-form";
+import {useNavigate} from "react-router-dom";
+
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Icon from "../components/atoms/Icon";
@@ -12,9 +14,17 @@ import Input from "../../components/InputControl";
 import RadioBtn from "../../components/RadioBtn";
 import SelectBox from "../../components/SelectBox";
 import { AdminRoleList, AdminStatusEnum, AdminStatusList } from "../../../consts/AdminConst";
-import Admin from "../../../types/Admin";
 import StoreValidation from "../../../Validation/Admin/Admin/StoreValidation";
 import { API_URL } from "../../../consts/CommonConst";
+
+type Admin = {
+    name: string;
+    login_id: string;
+    password: string;
+    passwordConfirm: string;
+    status: number;
+    role: number | '';
+}
 
 const AdminNew: React.FC = React.memo(() => {
     const useFormMethods = useForm<Admin>({
@@ -30,15 +40,16 @@ const AdminNew: React.FC = React.memo(() => {
         resolver: zodResolver(StoreValidation)
     });
     const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
     // const [error, setError]         = useState(false);
 
-    const { handleSubmit, reset } = useFormMethods;
+    const { handleSubmit } = useFormMethods;
     const onSubmit: SubmitHandler<Admin> = async(data: Admin) => {
         setIsLoading(true)
         await axios.post(`${API_URL}/api/admin/admin/admin`, data)
-        .then(() => {
+        .then((res) => {
             setIsLoading(false);
-            reset();
+            navigate(`/admin/admin/${res.data.id}`)
         }).catch(error => {
             setIsLoading(false);
             console.log(error);
