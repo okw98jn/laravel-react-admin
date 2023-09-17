@@ -15,6 +15,7 @@ import SelectBox from "../../components/SelectBox";
 import { AdminRoleList, AdminStatusEnum, AdminStatusList } from "../../../consts/AdminConst";
 import StoreValidation from "../../../Validation/Admin/Admin/StoreValidation";
 import { API_URL } from "../../../consts/CommonConst";
+import { useSnackbar } from "../../../Recoil/Admin/snackbarState";
 
 type Admin = {
     name: string;
@@ -26,6 +27,10 @@ type Admin = {
 }
 
 const AdminNew: React.FC = React.memo(() => {
+    const [isLoading, setIsLoading] = useState(false);
+    const { openSnackbar }          = useSnackbar()
+    const navigate                  = useNavigate();
+
     const useFormMethods = useForm<Admin>({
         defaultValues: {
             name: '',
@@ -38,16 +43,18 @@ const AdminNew: React.FC = React.memo(() => {
         mode: 'onChange',
         resolver: zodResolver(StoreValidation)
     });
-    const [isLoading, setIsLoading] = useState(false);
-    const navigate = useNavigate();
 
     const { handleSubmit } = useFormMethods;
     const onSubmit: SubmitHandler<Admin> = (data: Admin) => {
-        setIsLoading(true)
+        setIsLoading(true);
         axios.post(`${API_URL}/api/admin/admin/admin`, data)
             .then((res) => {
                 setIsLoading(false);
-                navigate(`/admin/admin/${res.data.id}`)
+                navigate(`/admin/admin/${res.data.id}`);
+                openSnackbar({
+                    text: '登録が完了しました',
+                    severity: 'success'
+                });
             }).catch(error => {
                 setIsLoading(false);
                 console.log(error);
