@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { AlertColor } from '@mui/material';
 
-import { ModalTypeEnum } from '../../../../consts/CommonConst'
+import { MAX_PAGE_COUNT, ModalTypeEnum } from '../../../../consts/CommonConst'
 import Icon from '../atoms/Icon';
 import { FiEdit, FiTrash2 } from 'react-icons/fi';
 import ConfirmModal from '../../../components/ConfirmModal';
@@ -19,8 +19,10 @@ type Props = {
     modalTitle: string;
     snackbarText: string;
     snackbarSeverity: AlertColor;
+    page: number;
+    setPage: React.Dispatch<React.SetStateAction<number>>;
 }
-const TableTdBtn: React.FC<Props> = React.memo(({ id, data, setData, setIsLoading, modalTitle, modalApi, snackbarText, snackbarSeverity }) => {
+const TableTdBtn: React.FC<Props> = React.memo(({ id, data, setData, setIsLoading, modalTitle, modalApi, snackbarText, snackbarSeverity, page, setPage }) => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const { openSnackbar } = useSnackbar();
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>, id: number): void => {
@@ -36,6 +38,12 @@ const TableTdBtn: React.FC<Props> = React.memo(({ id, data, setData, setIsLoadin
                     return item.id !== id
                 });
                 setData(newData);
+                if(newData.length % MAX_PAGE_COUNT === 0) {
+                    setPage(page - 1);
+                } else {
+                    setPage(page);
+                }
+                
             }).catch(error => {
                 console.log(error);
             }).finally(() => {

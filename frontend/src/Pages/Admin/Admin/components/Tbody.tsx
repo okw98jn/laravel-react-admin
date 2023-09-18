@@ -11,9 +11,11 @@ type Props = {
     admins: Admin[];
     setAdmins: React.Dispatch<React.SetStateAction<Admin[]>>;
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+    page: number;
+    setPage: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const Tbody: React.FC<Props> = React.memo(({ allAdmin, admins, setAdmins, setIsLoading }) => {
+const Tbody: React.FC<Props> = React.memo(({ allAdmin, admins, setAdmins, setIsLoading, page, setPage }) => {
 
     return (
         <tbody className="divide-y divide-gray-200">
@@ -29,7 +31,18 @@ const Tbody: React.FC<Props> = React.memo(({ allAdmin, admins, setAdmins, setIsL
                         <TableTd text={AdminRole[admin.role]} path={`/admin/admin/${admin.id}`} />
                         <TableTd status={admin.status} path={`/admin/admin/${admin.id}`} />
                         <TableTd text={formattedCreatedAt} path={`/admin/admin/${admin.id}`} />
-                        <TableTdBtn id={admin.id} data={allAdmin} setData={setAdmins} setIsLoading={setIsLoading} modalApi={`${API_URL}/api/admin/admin/delete`} modalTitle="管理者を削除しますか？" snackbarText="削除が完了しました" snackbarSeverity="success"/>
+                        <TableTdBtn
+                            id={admin.id}
+                            data={allAdmin}
+                            setData={setAdmins}
+                            setIsLoading={setIsLoading}
+                            modalApi={`${API_URL}/api/admin/admin/delete`}
+                            modalTitle="管理者を削除しますか？"
+                            snackbarText="削除が完了しました"
+                            snackbarSeverity="success"
+                            page={page}
+                            setPage={setPage}
+                            />
                     </tr>
                 );
             })}

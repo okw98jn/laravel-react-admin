@@ -1,15 +1,16 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Pagination } from '@mui/material';
 
 type Props = {
+    page: number;
+    setPage: React.Dispatch<React.SetStateAction<number>>;
     pageCount: number;
     dataLength: number;
     itemsPerPage: number;
     setItemOffset: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const Paginate: React.FC<Props> = React.memo(({ pageCount, dataLength, itemsPerPage, setItemOffset }) => {
-    const [page, setPage] = useState(1);
+const Paginate: React.FC<Props> = React.memo(({ page, setPage, pageCount, dataLength, itemsPerPage, setItemOffset }) => {
     const handleChange = (event: React.ChangeEvent<unknown>, page: number) => {
         setItemOffset((page - 1) * itemsPerPage % dataLength)
         setPage(page);

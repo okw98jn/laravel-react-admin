@@ -17,7 +17,7 @@ const AdminList: React.FC = React.memo(() => {
     const [currentItems, setCurrentItems] = useState<Admin[]>([]);
     const [pageCount, setPageCount]       = useState<number>(0);
     const [itemOffset, setItemOffset]     = useState<number>(0);
-
+    const [page, setPage]                 = useState(1);
     useEffect(() => {
         const endOffset = itemOffset + itemsPerPage;
         setCurrentItems(admins.slice(itemOffset, endOffset));
@@ -33,9 +33,9 @@ const AdminList: React.FC = React.memo(() => {
                 <TableHeader title="管理者一覧" newPath="/admin/admin/new" searchPath="" />
                 <table className="min-w-full divide-y divide-gray-200 border-b">
                     <Thead trList={AdminTheadInfo} />
-                    <Tbody allAdmin={admins} admins={currentItems} setAdmins={setAdmins} setIsLoading={setIsLoading} />
+                    <Tbody allAdmin={admins} admins={currentItems} setAdmins={setAdmins} setIsLoading={setIsLoading} page={page} setPage={setPage} />
                 </table>
-                <Paginate pageCount={pageCount} dataLength={admins.length} itemsPerPage={itemsPerPage} setItemOffset={setItemOffset} />
+                <Paginate page={page} setPage={setPage} pageCount={pageCount} dataLength={admins.length} itemsPerPage={itemsPerPage} setItemOffset={setItemOffset} />
             </div>
         </div >
     )
