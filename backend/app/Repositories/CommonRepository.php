@@ -26,6 +26,11 @@ class CommonRepository
         });
     }
 
+    public function getOneById($id)
+    {
+        return $this->model->find($id);
+    }
+    
     public function dataExists(array $where)
     {
         return $this->model->where($where)->exists();

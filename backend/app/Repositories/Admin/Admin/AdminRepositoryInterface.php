@@ -8,6 +8,8 @@ interface AdminRepositoryInterface
     
     public function create(array $data);
 
+    public function getOneById($id);
+
     public function dataExists(array $where);
 
     public function delete($id);
