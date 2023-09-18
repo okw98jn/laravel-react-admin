@@ -4,12 +4,16 @@ import TableTd from "../../components/molecules/TableTd";
 import TableTdBtn from "../../components/molecules/TableTdBtn";
 import { AdminRole } from "../../../../consts/AdminConst";
 import Admin from "../../../../types/Admin";
+import { API_URL } from "../../../../consts/CommonConst";
 
 type Props = {
+    allAdmin: Admin[];
     admins: Admin[];
+    setAdmins: React.Dispatch<React.SetStateAction<Admin[]>>;
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const Tbody: React.FC<Props> = React.memo(({ admins }) => {
+const Tbody: React.FC<Props> = React.memo(({ allAdmin, admins, setAdmins, setIsLoading }) => {
 
     return (
         <tbody className="divide-y divide-gray-200">
@@ -25,7 +29,7 @@ const Tbody: React.FC<Props> = React.memo(({ admins }) => {
                         <TableTd text={AdminRole[admin.role]} path={`/admin/admin/${admin.id}`} />
                         <TableTd status={admin.status} path={`/admin/admin/${admin.id}`} />
                         <TableTd text={formattedCreatedAt} path={`/admin/admin/${admin.id}`} />
-                        <TableTdBtn id={admin.id} modalTitle="管理者を削除しますか？"/>
+                        <TableTdBtn id={admin.id} data={allAdmin} setData={setAdmins} setIsLoading={setIsLoading} modalApi={`${API_URL}/api/admin/admin/delete`} modalTitle="管理者を削除しますか？" snackbarText="削除が完了しました" snackbarSeverity="success"/>
                     </tr>
                 );
             })}
