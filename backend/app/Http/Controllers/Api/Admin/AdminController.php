@@ -48,7 +48,7 @@ class AdminController extends Controller
         try {
             $admin = $this->adminRepository->getOneById($id);
             unset($admin['password']);
-            return response()->json([$admin], JsonResponse::HTTP_OK);
+            return response()->json($admin, JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             Log::error($e->getMessage());
             return response()->json([], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
