@@ -7,16 +7,19 @@ import { AdminRoutes } from "./router";
 import "./css/app.scss";
 import "./css/index.css";
 import { CustomSnackbar } from "./Pages/components/CustomSnackbar";
+import { AxiosClientProvider } from "./Axios/AxiosClientProvider";
 
 export const App: React.FC = () => {
-  return (
-    <RecoilRoot>
-      <BrowserRouter>
-        <AdminRoutes />
-      </BrowserRouter>
-      <CustomSnackbar />
-    </RecoilRoot>
-  );
+    return (
+        <RecoilRoot>
+            <BrowserRouter>
+                <AxiosClientProvider>
+                    <AdminRoutes />
+                </AxiosClientProvider>
+            </BrowserRouter>
+            <CustomSnackbar />
+        </RecoilRoot>
+    );
 };
 
 ReactDOM.createRoot(document.getElementById("root")!).render(<App />);

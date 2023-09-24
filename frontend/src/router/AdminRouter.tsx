@@ -3,7 +3,6 @@ import { Routes, Route } from "react-router-dom";
 
 import Loading from "../Pages/components/Loading";
 
-
 const AdminList  = lazy(() => import('../Pages/Admin/Admin/AdminList'))
 const AdminNew   = lazy(() => import('../Pages/Admin/Admin/AdminNew'))
 const AdminShow  = lazy(() => import('../Pages/Admin/Admin/AdminShow'))
@@ -26,6 +25,5 @@ const AdminRoutes: React.FC = () => {
         </>
     )
 }
-
 
 export default AdminRoutes

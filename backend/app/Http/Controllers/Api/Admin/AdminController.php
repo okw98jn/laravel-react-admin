@@ -48,13 +48,16 @@ class AdminController extends Controller
         try {
             $admin = $this->adminRepository->getOneById($id);
             unset($admin['password']);
+            if (empty($admin)) {
+                return response()->json([], JsonResponse::HTTP_NOT_FOUND);
+            }
             return response()->json($admin, JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             Log::error($e->getMessage());
             return response()->json([], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     public function loginIdDuplicateCheck(Request $request)
     {
         try {
