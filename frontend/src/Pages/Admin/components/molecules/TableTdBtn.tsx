@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { AlertColor } from '@mui/material';
 
 import { MAX_PAGE_COUNT, ModalTypeEnum } from '../../../../consts/CommonConst'
@@ -9,6 +8,7 @@ import { FiEdit, FiTrash2 } from 'react-icons/fi';
 import ConfirmModal from '../../../components/ConfirmModal';
 import { useSnackbar } from '../../../../Recoil/Admin/snackbarState';
 import Admin from '../../../../types/Admin';
+import { axiosClient } from '../../../../Axios/AxiosClientProvider';
 
 type Props = {
     id: number;
@@ -28,7 +28,7 @@ const TableTdBtn: React.FC<Props> = React.memo(({ id, data, setData, setIsLoadin
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>, id: number): void => {
         setIsLoading(true);
         e.preventDefault();
-        axios.post(modalApi, { id: id })
+        axiosClient.post(modalApi, { id: id })
             .then(() => {
                 openSnackbar({
                     text: snackbarText,
@@ -45,7 +45,7 @@ const TableTdBtn: React.FC<Props> = React.memo(({ id, data, setData, setIsLoadin
                 }
                 
             }).catch(error => {
-                console.log(error);
+                throw error;
             }).finally(() => {
                 setIsModalOpen(false);
                 setIsLoading(false);

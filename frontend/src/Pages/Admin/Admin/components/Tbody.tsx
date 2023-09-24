@@ -4,7 +4,6 @@ import TableTd from "../../components/molecules/TableTd";
 import TableTdBtn from "../../components/molecules/TableTdBtn";
 import { AdminRole } from "../../../../consts/AdminConst";
 import Admin from "../../../../types/Admin";
-import { API_URL } from "../../../../consts/CommonConst";
 
 type Props = {
     allAdmin: Admin[];
@@ -36,7 +35,7 @@ const Tbody: React.FC<Props> = React.memo(({ allAdmin, admins, setAdmins, setIsL
                             data={allAdmin}
                             setData={setAdmins}
                             setIsLoading={setIsLoading}
-                            modalApi={`${API_URL}/api/admin/admin/delete`}
+                            modalApi={'/api/admin/admin/delete'}
                             modalTitle="管理者を削除しますか？"
                             snackbarText="削除が完了しました"
                             snackbarSeverity="success"
