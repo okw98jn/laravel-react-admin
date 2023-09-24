@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 import useFetchData from "../../../hooks/useFetchData";
 import { MAX_PAGE_COUNT } from "../../../consts/CommonConst";
@@ -10,13 +11,19 @@ import Thead from "../components/organisms/Thead";
 import Tbody from "./components/Tbody";
 import Paginate from "../../components/Paginate";
 
+type PageProps = {
+    currentPage: number;
+}
+
 const AdminList: React.FC = React.memo(() => {
     const { data: admins, setData: setAdmins, isLoading, setIsLoading } = useFetchData<Admin>('/api/admin/admin/admins');
-    const itemsPerPage: number            = MAX_PAGE_COUNT;
+    const location = useLocation();
+    const { currentPage } = location.state as PageProps ? location.state : 1;
+    const itemsPerPage: number = MAX_PAGE_COUNT;
     const [currentItems, setCurrentItems] = useState<Admin[]>([]);
-    const [pageCount, setPageCount]       = useState<number>(0);
-    const [itemOffset, setItemOffset]     = useState<number>(0);
-    const [page, setPage]                 = useState(1);
+    const [pageCount, setPageCount] = useState<number>(0);
+    const [itemOffset, setItemOffset] = useState<number>(0);
+    const [page, setPage] = useState<number>(currentPage);
     useEffect(() => {
         const endOffset = itemOffset + itemsPerPage;
         setCurrentItems(admins.slice(itemOffset, endOffset));
