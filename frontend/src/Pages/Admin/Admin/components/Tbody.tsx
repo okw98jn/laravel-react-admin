@@ -10,11 +10,12 @@ type Props = {
     admins: Admin[];
     setAdmins: React.Dispatch<React.SetStateAction<Admin[]>>;
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+    itemOffset: number;
     page: number;
     setPage: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const Tbody: React.FC<Props> = React.memo(({ allAdmin, admins, setAdmins, setIsLoading, page, setPage }) => {
+const Tbody: React.FC<Props> = React.memo(({ allAdmin, admins, setAdmins, setIsLoading, itemOffset, page, setPage }) => {
 
     return (
         <tbody className="divide-y divide-gray-200">
@@ -24,12 +25,12 @@ const Tbody: React.FC<Props> = React.memo(({ allAdmin, admins, setAdmins, setIsL
 
                 return (
                     <tr key={admin.id} className="hover:bg-gray-200 transition duration-300 ease-in-out cursor-pointer even:bg-gray-50">
-                        <TableTd text={admin.id} path={`/admin/admin/${admin.id}`} page={page} />
-                        <TableTd text={admin.name} path={`/admin/admin/${admin.id}`} page={page} />
-                        <TableTd text={admin.login_id} path={`/admin/admin/${admin.id}`} page={page} />
-                        <TableTd text={AdminRole[admin.role]} path={`/admin/admin/${admin.id}`} page={page} />
-                        <TableTd status={admin.status} path={`/admin/admin/${admin.id}`} page={page} />
-                        <TableTd text={formattedCreatedAt} path={`/admin/admin/${admin.id}`} page={page} />
+                        <TableTd text={admin.id} path={`/admin/admin/${admin.id}`} page={page} itemOffset={itemOffset} />
+                        <TableTd text={admin.name} path={`/admin/admin/${admin.id}`} page={page} itemOffset={itemOffset} />
+                        <TableTd text={admin.login_id} path={`/admin/admin/${admin.id}`} page={page} itemOffset={itemOffset} />
+                        <TableTd text={AdminRole[admin.role]} path={`/admin/admin/${admin.id}`} page={page} itemOffset={itemOffset} />
+                        <TableTd status={admin.status} path={`/admin/admin/${admin.id}`} page={page} itemOffset={itemOffset} />
+                        <TableTd text={formattedCreatedAt} path={`/admin/admin/${admin.id}`} page={page} itemOffset={itemOffset} />
                         <TableTdBtn
                             id={admin.id}
                             data={allAdmin}

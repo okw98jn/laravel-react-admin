@@ -8,13 +8,14 @@ type TableTdProps = {
     text?: string | number | null;
     path?: string;
     status?: AdminStatusEnum.Valid | AdminStatusEnum.InValid | null;
+    itemOffset: number;
     page: number;
 }
 
-const TableTd: React.FC<TableTdProps> = React.memo(({ text = null, path = '', status = null, page }) => {
+const TableTd: React.FC<TableTdProps> = React.memo(({ text = null, path = '', status = null, page, itemOffset }) => {
     return (
         <td className="whitespace-nowrap">
-            <Link to={path} state={{ currentPage: page }}>
+            <Link to={path} state={{ currentPage: page, itemOffset: itemOffset }}>
                 <div className="px-6 py-5">
                     {status !== null ? (
                         <StatusIcon status={status} />

@@ -15,13 +15,14 @@ import Loading from "../../components/Loading";
 
 type PageProps = {
     currentPage: number;
+    itemOffset: number;
 }
 
 const AdminShow: React.FC = React.memo(() => {
     const id = useParams().id;
     const { data: admin, isLoading } = useFetchShowData<Admin>(`/api/admin/admin/${id}`);
     const location = useLocation();
-    const { currentPage } = location.state as PageProps;
+    const { currentPage, itemOffset } = location.state as PageProps;
 
     if (isLoading) return <Loading />;
     if (admin) {
@@ -54,12 +55,14 @@ const AdminShow: React.FC = React.memo(() => {
                             </div>
                             <div className="w-full flex justify-end">
                                 <p className="mr-3">
-                                    <Link to='/admin/admin' state={{ currentPage: currentPage }}>
+                                    <Link to='/admin/admin' state={{ currentPage: currentPage, currentItemOffset: itemOffset }}>
                                         <IconBtn text="戻る" svg={<RiArrowGoBackFill />} color='info' variant='contained' />
                                     </Link>
                                 </p>
                                 <p>
-                                    <IconBtn text="編集" svg={<FiEdit />} color='primary' variant='contained' />
+                                    <Link to={`/admin/admin/edit/${admin.id}`}>
+                                        <IconBtn text="編集" svg={<FiEdit />} color='primary' variant='contained' />
+                                    </Link>
                                 </p>
                             </div>
                         </div>
