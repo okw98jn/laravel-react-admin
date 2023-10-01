@@ -91,13 +91,13 @@ const AdminEdit: React.FC = React.memo(() => {
                                     <Input label="ログインID" name="login_id" isRequired={true} />
                                 </div>
                                 <div className="w-2/3 mb-7">
-                                    <PasswordInput label="変更前のパスワード" name="oldPassword" />
+                                    <PasswordInput label="変更前のパスワード" name="oldPassword" isRequired={false} />
                                 </div>
                                 <div className="w-2/3 mb-7">
-                                    <PasswordInput label="パスワード" name="password" />
+                                    <PasswordInput label="パスワード" name="password" isRequired={false} />
                                 </div>
                                 <div className="w-2/3 mb-7">
-                                    <PasswordInput label="パスワード(確認)" name="passwordConfirm" />
+                                    <PasswordInput label="パスワード(確認)" name="passwordConfirm" isRequired={false} />
                                 </div>
                                 <div className="w-2/3 mb-7">
                                     <SelectBox label="権限" name="role" isRequired={true} items={AdminRoleList} />

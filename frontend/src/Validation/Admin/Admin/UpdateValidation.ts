@@ -14,17 +14,13 @@ const UpdateValidation = z.object({
             /^[0-9a-zA-Z]*$/,
             'ログインIDは半角英数字で入力してください'
         ),
-    oldPassword: z.string()
-        .nonempty({ message: '変更前のパスワードは必須です' }),
+    oldPassword: z.string(),
     password: z.string()
-        .nonempty({ message: 'パスワードは必須です' })
-        .min(8, 'パスワードは8文字以上で入力してください')
         .regex(
             /^(?=.*?[a-z])(?=.*?\d)[a-z\d]{8,100}$/i,
             'パスワードは半角英数字混合で入力してください'
-        ),
-    passwordConfirm: z.string()
-        .nonempty({ message: 'パスワード(確認)は必須です' }),
+        ).or(z.literal("")),
+    passwordConfirm: z.string(),
     role: z.number({ invalid_type_error: '権限は必須です' }),
     status: z.number()
 }).superRefine(async ({ id, login_id, }, ctx) => {
@@ -42,7 +38,7 @@ const UpdateValidation = z.object({
             message: 'ログインIDは既に使用されています',
         });
     }
-}).superRefine(async ({ id, oldPassword, }, ctx) => {
+}).superRefine(async ({ id, oldPassword, password }, ctx) => {
     let isPasswordMatching: boolean = false;
     await axiosClient.post(`/api/admin/admin/password_check`, { id: id, oldPassword: oldPassword })
         .then((res) => {
@@ -50,7 +46,8 @@ const UpdateValidation = z.object({
         }).catch(error => {
             throw error
         })
-        if (!isPasswordMatching) {
+        
+    if (!isPasswordMatching && password) {
         ctx.addIssue({
             path: ['oldPassword'],
             code: 'custom',

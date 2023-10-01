@@ -6,8 +6,9 @@ import { Controller, useFormContext } from 'react-hook-form';
 type Props = {
     label: string;
     name: string;
+    isRequired?: boolean;
 }
-const PasswordInput: React.FC<Props> = React.memo(({ label, name }) => {
+const PasswordInput: React.FC<Props> = React.memo(({ label, name, isRequired = true }) => {
     const { control } = useFormContext();
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -22,7 +23,7 @@ const PasswordInput: React.FC<Props> = React.memo(({ label, name }) => {
                 control={control}
                 render={({ field: { onChange, value }, fieldState: { error } }) =>
                     <>
-                        <InputLabel required error={error && true}>{label}</InputLabel>
+                        <InputLabel required={isRequired} error={error && true}>{label}</InputLabel>
                         <OutlinedInput
                             type={showPassword ? 'text' : 'password'}
                             onChange={onChange}
