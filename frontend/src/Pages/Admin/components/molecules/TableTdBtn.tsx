@@ -59,7 +59,7 @@ const TableTdBtn: React.FC<Props> = React.memo(({ id, data, setData, setIsLoadin
                     <Icon svg={<FiTrash2 />} size='20px' color='' />
                 </div>
                 <ConfirmModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} type={ModalTypeEnum.Alert} text={modalTitle} handleSubmit={handleSubmit} id={id} rightBtnText='削除' />
-                <Link to={'/'} className="py-3 px-4 text-gray-500">
+                <Link to={`/admin/admin/edit/${id}`} className="py-3 px-4 text-gray-500">
                     <Icon svg={<FiEdit />} size='20px' color='' />
                 </Link>
             </div>

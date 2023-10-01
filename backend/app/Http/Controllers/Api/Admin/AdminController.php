@@ -64,6 +64,11 @@ class AdminController extends Controller
     public function updateAdmin(Request $request, $id)
     {
         try {
+            $attributes = $request->only(['name', 'login_id', 'role', 'status']);
+            if ($request->password) {
+                $attributes['password'] = Hash::make($request->input('password'));
+            }
+            $this->adminRepository->update($id, $attributes);
             return response()->json($request, JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             return $this->errorResponse($e);

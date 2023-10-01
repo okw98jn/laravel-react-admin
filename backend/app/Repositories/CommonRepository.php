@@ -26,6 +26,13 @@ class CommonRepository
         });
     }
 
+    public function update($id, array $data)
+    {
+        return DB::transaction(function () use ($id, $data) {
+            return $this->model->find($id)->update($data);
+        });
+    }
+
     public function getOneById($id)
     {
         return $this->model->find($id);
