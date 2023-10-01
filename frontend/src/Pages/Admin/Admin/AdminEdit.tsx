@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { FormProvider, useForm, SubmitHandler } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaUserCircle } from "react-icons/fa";
-import { FiPlus } from "react-icons/fi";
+import { FiEdit } from "react-icons/fi";
 
 import Icon from "../components/atoms/Icon";
 import IconBtn from "../../components/btns/IconBtn";
@@ -12,38 +12,53 @@ import Input from "../../components/InputControl";
 import RadioBtn from "../../components/RadioBtn";
 import SelectBox from "../../components/SelectBox";
 import { AdminRoleList, AdminStatusEnum, AdminStatusList } from "../../../consts/AdminConst";
-import StoreValidation from "../../../Validation/Admin/Admin/StoreValidation";
+import UpdateValidation from "../../../Validation/Admin/Admin/UpdateValidation";
 import { useSnackbar } from "../../../Recoil/Admin/snackbarState";
 import { axiosClient } from '../../../Axios/AxiosClientProvider';
+import useFetchShowData from "../../../hooks/useFetchShowData";
 
 type Admin = {
+    id: number;
     name: string;
     login_id: string;
+    oldPassword: string;
     password: string;
     passwordConfirm: string;
     status: number;
     role: number | '';
 }
-
-const AdminNew: React.FC = React.memo(() => {
-    const [isLoading, setIsLoading] = useState(false);
+const AdminEdit: React.FC = React.memo(() => {
+    const id = useParams().id;
+    const { data: admin, isLoading, setIsLoading } = useFetchShowData<Admin>(`/api/admin/admin/${id}`);
     const { openSnackbar } = useSnackbar();
     const navigate = useNavigate();
-
     const useFormMethods = useForm<Admin>({
         defaultValues: {
+            id: 0,
             name: '',
             login_id: '',
+            oldPassword: '',
             password: '',
             passwordConfirm: '',
             role: '',
             status: AdminStatusEnum.Valid
         },
         mode: 'onChange',
-        resolver: zodResolver(StoreValidation)
+        resolver: zodResolver(UpdateValidation)
     });
 
-    const { handleSubmit } = useFormMethods;
+    const { handleSubmit, setValue, register } = useFormMethods;
+
+    useEffect(() => {
+        if (admin) {
+            setValue('id', admin.id)
+            setValue('name', admin.name)
+            setValue('login_id', admin.login_id)
+            setValue('role', admin.role)
+            setValue('status', admin.status)
+        }
+    }, [setValue, admin])
+    
     const onSubmit: SubmitHandler<Admin> = (data: Admin) => {
         setIsLoading(true);
         axiosClient.post('/api/admin/admin/admin', data)
@@ -51,7 +66,7 @@ const AdminNew: React.FC = React.memo(() => {
                 setIsLoading(false);
                 navigate(`/admin/admin/${res.data.id}`);
                 openSnackbar({
-                    text: '登録が完了しました',
+                    text: '編集が完了しました',
                     severity: 'success'
                 });
             }).catch(error => {
@@ -66,7 +81,7 @@ const AdminNew: React.FC = React.memo(() => {
                 <div className="px-12 py-4 mb-8">
                     <div className="flex items-center flex-col pt-8">
                         <Icon svg={<FaUserCircle />} color='#2a3f54da' size='40px' />
-                        <p className="text-lg text-gray-700 mt-1 mb-8">管理者追加</p>
+                        <p className="text-lg text-gray-700 mt-1 mb-8">管理者編集</p>
                         <FormProvider {...useFormMethods}>
                             <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col items-center">
                                 <div className="w-2/3 mb-7">
@@ -74,6 +89,9 @@ const AdminNew: React.FC = React.memo(() => {
                                 </div>
                                 <div className="w-2/3 mb-7">
                                     <Input label="ログインID" name="login_id" isRequired={true} />
+                                </div>
+                                <div className="w-2/3 mb-7">
+                                    <PasswordInput label="変更前のパスワード" name="oldPassword" />
                                 </div>
                                 <div className="w-2/3 mb-7">
                                     <PasswordInput label="パスワード" name="password" />
@@ -88,8 +106,9 @@ const AdminNew: React.FC = React.memo(() => {
                                     <RadioBtn label="ステータス" name="status" isRequired={true} items={AdminStatusList} />
                                 </div>
                                 <div className="w-2/3">
-                                    <IconBtn text="登録" svg={<FiPlus />} color='primary' variant='contained' size="large" isLoading={isLoading} isSubmit={true} />
+                                    <IconBtn text="編集" svg={<FiEdit />} color='primary' variant='contained' size="large" isLoading={isLoading} isSubmit={true} />
                                 </div>
+                                <input {...register("id")} type="hidden" />
                             </form>
                         </FormProvider>
                     </div>
@@ -99,4 +118,4 @@ const AdminNew: React.FC = React.memo(() => {
     )
 })
 
-export default AdminNew
+export default AdminEdit

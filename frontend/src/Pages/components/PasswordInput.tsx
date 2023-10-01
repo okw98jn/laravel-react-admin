@@ -4,9 +4,10 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Controller, useFormContext } from 'react-hook-form';
 
 type Props = {
-    isConfirm?: boolean;
+    label: string;
+    name: string;
 }
-const PasswordInput: React.FC<Props> = React.memo(({ isConfirm = false }) => {
+const PasswordInput: React.FC<Props> = React.memo(({ label, name }) => {
     const { control } = useFormContext();
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -17,11 +18,11 @@ const PasswordInput: React.FC<Props> = React.memo(({ isConfirm = false }) => {
     return (
         <FormControl fullWidth variant="outlined" size="small">
             <Controller
-                name={isConfirm ? 'passwordConfirm' : 'password'}
+                name={name}
                 control={control}
                 render={({ field: { onChange, value }, fieldState: { error } }) =>
                     <>
-                        <InputLabel required error={error && true}>{isConfirm ? 'パスワード(確認)' : 'パスワード'}</InputLabel>
+                        <InputLabel required error={error && true}>{label}</InputLabel>
                         <OutlinedInput
                             type={showPassword ? 'text' : 'password'}
                             onChange={onChange}
@@ -39,7 +40,7 @@ const PasswordInput: React.FC<Props> = React.memo(({ isConfirm = false }) => {
                                     </IconButton>
                                 </InputAdornment>
                             }
-                            label={isConfirm ? 'パスワード(確認)' : 'パスワード'}
+                            label={label}
                         />
                         <FormHelperText error>
                             {error ? error.message : null}

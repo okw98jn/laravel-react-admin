@@ -35,7 +35,6 @@ export function AxiosClientProvider({ children }: { children: React.ReactElement
                         setNotFoundError(true);
                         break
                     default:
-                        console.log(111)
                         break
                 }
                 return Promise.reject(error)

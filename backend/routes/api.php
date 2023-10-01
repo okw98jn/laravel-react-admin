@@ -20,6 +20,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('admin', [AdminController::class, 'storeAdmin'])->name('admin');
         Route::get('{id}', [AdminController::class, 'showAdmin'])->name('show_admin');
         Route::post('login_id_duplicate_check', [AdminController::class, 'loginIdDuplicateCheck'])->name('login_id_duplicate_check');
+        Route::post('password_check', [AdminController::class, 'passwordCheck'])->name('password_check');
         Route::post('delete', [AdminController::class, 'delete'])->name('delete');
     });
 });

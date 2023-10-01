@@ -19,14 +19,19 @@ class AdminController extends Controller
         $this->adminRepository = $adminRepository;
     }
 
+    private function errorResponse($e)
+    {
+        Log::error($e->getMessage());
+        return response()->json([$e->getMessage()], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+    }
+
     public function getAllAdmins()
     {
         try {
             $admins = $this->adminRepository->getAll();
             return response()->json($admins, JsonResponse::HTTP_OK);
         } catch (Exception $e) {
-            Log::error($e->getMessage());
-            return response()->json([], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->errorResponse($e);
         }
     }
 
@@ -38,8 +43,7 @@ class AdminController extends Controller
             $admin                  = $this->adminRepository->create($attributes);
             return response()->json(['id' => $admin->id], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
-            Log::error($e->getMessage());
-            return response()->json([], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->errorResponse($e);
         }
     }
 
@@ -53,8 +57,7 @@ class AdminController extends Controller
             }
             return response()->json($admin, JsonResponse::HTTP_OK);
         } catch (Exception $e) {
-            Log::error($e->getMessage());
-            return response()->json([], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->errorResponse($e);
         }
     }
 
@@ -64,11 +67,24 @@ class AdminController extends Controller
             $where = [
                 ['login_id', $request->login_id]
             ];
+            if (!empty($request->id)) {
+                $where[] = ['id', '!=', $request->id];
+            }
             $loginIdExists = $this->adminRepository->dataExists($where);
             return response()->json($loginIdExists, JsonResponse::HTTP_OK);
         } catch (Exception $e) {
-            Log::error($e->getMessage());
-            return response()->json([], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->errorResponse($e);
+        }
+    }
+
+    public function passwordCheck(Request $request)
+    {
+        try {
+            $admin              = $this->adminRepository->getOneById($request->id);
+            $isPasswordMatching = password_verify($request->oldPassword, $admin->password);
+            return response()->json($isPasswordMatching, JsonResponse::HTTP_OK);
+        } catch (Exception $e) {
+            return $this->errorResponse($e);
         }
     }
 
@@ -78,8 +94,7 @@ class AdminController extends Controller
             $this->adminRepository->delete($request->id);
             return response()->json([], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
-            Log::error($e->getMessage());
-            return response()->json([], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->errorResponse($e);
         }
     }
 }
