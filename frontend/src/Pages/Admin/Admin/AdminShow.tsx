@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
 import { RiArrowGoBackFill } from "react-icons/ri";
@@ -13,16 +13,9 @@ import StatusIcon from "../components/atoms/StatusIcon";
 import IconBtn from "../../components/btns/IconBtn";
 import Loading from "../../components/Loading";
 
-type PageProps = {
-    currentPage: number;
-    itemOffset: number;
-}
-
 const AdminShow: React.FC = React.memo(() => {
     const id = useParams().id;
     const { data: admin, isLoading } = useFetchShowData<Admin>(`/api/admin/admin/${id}`);
-    const location = useLocation();
-    const { currentPage, itemOffset } = location.state as PageProps;
 
     if (isLoading) return <Loading />;
     if (admin) {
@@ -55,7 +48,7 @@ const AdminShow: React.FC = React.memo(() => {
                             </div>
                             <div className="w-full flex justify-end">
                                 <p className="mr-3">
-                                    <Link to='/admin/admin' state={{ currentPage: currentPage, currentItemOffset: itemOffset }}>
+                                    <Link to='/admin/admin'>
                                         <IconBtn text="戻る" svg={<RiArrowGoBackFill />} color='info' variant='contained' />
                                     </Link>
                                 </p>

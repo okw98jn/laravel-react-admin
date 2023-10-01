@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useRecoilState } from "recoil";
 
 import useFetchData from "../../../hooks/useFetchData";
 import { MAX_PAGE_COUNT } from "../../../consts/CommonConst";
@@ -10,22 +10,15 @@ import Loading from "../../components/Loading";
 import Thead from "../components/organisms/Thead";
 import Tbody from "./components/Tbody";
 import Paginate from "../../components/Paginate";
-
-type PageProps = {
-    currentPage: number;
-    currentItemOffset: number;
-}
+import { itemOffsetState } from "../../../Recoil/Admin/paginateState";
 
 const AdminList: React.FC = React.memo(() => {
     const { data: admins, setData: setAdmins, isLoading, setIsLoading } = useFetchData<Admin>('/api/admin/admin/admins');
-    const location = useLocation();
-    const { currentPage } = location.state as PageProps ? location.state : 1;
-    const { currentItemOffset } = location.state as PageProps ? location.state : 1;
-    const itemsPerPage: number = MAX_PAGE_COUNT;
+    const itemsPerPage: number            = MAX_PAGE_COUNT;
     const [currentItems, setCurrentItems] = useState<Admin[]>([]);
-    const [pageCount, setPageCount] = useState<number>(0);
-    const [itemOffset, setItemOffset] = useState<number>(currentItemOffset);
-    const [page, setPage] = useState<number>(currentPage);
+    const [pageCount, setPageCount]       = useState<number>(0);
+    const [itemOffset, setItemOffset]     = useRecoilState(itemOffsetState);
+    
     useEffect(() => {
         const endOffset = itemOffset + itemsPerPage;
         setCurrentItems(admins.slice(itemOffset, endOffset));
@@ -40,9 +33,9 @@ const AdminList: React.FC = React.memo(() => {
                 <TableHeader title="管理者一覧" newPath="/admin/admin/new" searchPath="" />
                 <table className="min-w-full divide-y divide-gray-200 border-b">
                     <Thead trList={AdminTheadInfo} />
-                    <Tbody allAdmin={admins} admins={currentItems} setAdmins={setAdmins} setIsLoading={setIsLoading} itemOffset={itemOffset} page={page} setPage={setPage} />
+                    <Tbody allAdmin={admins} admins={currentItems} setAdmins={setAdmins} setIsLoading={setIsLoading} />
                 </table>
-                <Paginate page={page} setPage={setPage} pageCount={pageCount} dataLength={admins.length} itemsPerPage={itemsPerPage} setItemOffset={setItemOffset} />
+                <Paginate pageCount={pageCount} dataLength={admins.length} itemsPerPage={itemsPerPage} setItemOffset={setItemOffset} />
             </div>
         </div >
     )

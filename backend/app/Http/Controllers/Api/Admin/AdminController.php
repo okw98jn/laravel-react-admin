@@ -61,6 +61,15 @@ class AdminController extends Controller
         }
     }
 
+    public function updateAdmin(Request $request, $id)
+    {
+        try {
+            return response()->json($request, JsonResponse::HTTP_OK);
+        } catch (Exception $e) {
+            return $this->errorResponse($e);
+        }
+    }
+
     public function loginIdDuplicateCheck(Request $request)
     {
         try {

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import { AlertColor } from '@mui/material';
+import { useRecoilState } from 'recoil';
 
 import { MAX_PAGE_COUNT, ModalTypeEnum } from '../../../../consts/CommonConst'
 import Icon from '../atoms/Icon';
@@ -9,6 +10,7 @@ import ConfirmModal from '../../../components/ConfirmModal';
 import { useSnackbar } from '../../../../Recoil/Admin/snackbarState';
 import Admin from '../../../../types/Admin';
 import { axiosClient } from '../../../../Axios/AxiosClientProvider';
+import { pageState } from '../../../../Recoil/Admin/paginateState';
 
 type Props = {
     id: number;
@@ -19,13 +21,12 @@ type Props = {
     modalTitle: string;
     snackbarText: string;
     snackbarSeverity: AlertColor;
-    page: number;
-    setPage: React.Dispatch<React.SetStateAction<number>>;
 }
-const TableTdBtn: React.FC<Props> = React.memo(({ id, data, setData, setIsLoading, modalTitle, modalApi, snackbarText, snackbarSeverity, page, setPage }) => {
+const TableTdBtn: React.FC<Props> = React.memo(({ id, data, setData, setIsLoading, modalTitle, modalApi, snackbarText, snackbarSeverity }) => {
+    const [page, setPage]               = useRecoilState(pageState);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-    const { openSnackbar } = useSnackbar();
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>, id: number): void => {
+    const { openSnackbar }              = useSnackbar();
+    const handleSubmit                  = (e: React.FormEvent<HTMLFormElement>, id: number): void => {
         setIsLoading(true);
         e.preventDefault();
         axiosClient.post(modalApi, { id: id })
@@ -38,12 +39,12 @@ const TableTdBtn: React.FC<Props> = React.memo(({ id, data, setData, setIsLoadin
                     return item.id !== id
                 });
                 setData(newData);
-                if(newData.length % MAX_PAGE_COUNT === 0) {
+                if (newData.length % MAX_PAGE_COUNT === 0) {
                     setPage(page - 1);
                 } else {
                     setPage(page);
                 }
-                
+
             }).catch(error => {
                 throw error;
             }).finally(() => {

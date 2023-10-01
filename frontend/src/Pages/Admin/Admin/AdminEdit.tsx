@@ -61,7 +61,7 @@ const AdminEdit: React.FC = React.memo(() => {
     
     const onSubmit: SubmitHandler<Admin> = (data: Admin) => {
         setIsLoading(true);
-        axiosClient.post('/api/admin/admin/admin', data)
+        axiosClient.post(`/api/admin/admin/update/${data.id}`, data)
             .then((res) => {
                 setIsLoading(false);
                 navigate(`/admin/admin/${res.data.id}`);
