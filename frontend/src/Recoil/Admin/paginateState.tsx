@@ -7,5 +7,5 @@ export const pageState = atom<number>({
 
 export const itemOffsetState = atom<number>({
     key: 'itemOffsetState',
-    default: 1
+    default: 0
 });
