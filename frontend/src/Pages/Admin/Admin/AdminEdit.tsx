@@ -43,7 +43,7 @@ const AdminEdit: React.FC = React.memo(() => {
             role: '',
             status: AdminStatusEnum.Valid
         },
-        mode: 'onChange',
+        mode: 'onSubmit',
         resolver: zodResolver(UpdateValidation)
     });
 
