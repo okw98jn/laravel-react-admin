@@ -47,6 +47,13 @@ const UpdateValidation = z.object({
             throw error
         })
         
+    if (oldPassword && !password) {
+        ctx.addIssue({
+            path: ['password'],
+            code: 'custom',
+            message: 'パスワードを入力してください',
+        });
+    }
     if (!isPasswordMatching && password) {
         ctx.addIssue({
             path: ['oldPassword'],
