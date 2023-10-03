@@ -9,10 +9,9 @@ type Props = {
     allAdmin: Admin[];
     admins: Admin[];
     setAdmins: React.Dispatch<React.SetStateAction<Admin[]>>;
-    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const Tbody: React.FC<Props> = React.memo(({ allAdmin, admins, setAdmins, setIsLoading }) => {
+const Tbody: React.FC<Props> = React.memo(({ allAdmin, admins, setAdmins }) => {
 
     return (
         <tbody className="divide-y divide-gray-200">
@@ -32,7 +31,6 @@ const Tbody: React.FC<Props> = React.memo(({ allAdmin, admins, setAdmins, setIsL
                             id={admin.id}
                             data={allAdmin}
                             setData={setAdmins}
-                            setIsLoading={setIsLoading}
                             modalApi={'/api/admin/admin/delete'}
                             modalTitle="管理者を削除しますか？"
                             snackbarText="削除が完了しました"

@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { FormProvider, useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaUserCircle } from "react-icons/fa";
 import { FiPlus } from "react-icons/fi";
+import { useRecoilState } from "recoil";
 
 import Icon from "../components/atoms/Icon";
 import IconBtn from "../../components/btns/IconBtn";
@@ -15,6 +16,7 @@ import { AdminRoleList, AdminStatusEnum, AdminStatusList } from "../../../consts
 import StoreValidation from "../../../Validation/Admin/Admin/StoreValidation";
 import { useSnackbar } from "../../../Recoil/Admin/snackbarState";
 import { axiosClient } from '../../../Axios/AxiosClientProvider';
+import { loadingState } from "../../../Recoil/Admin/loading";
 
 type Admin = {
     name: string;
@@ -26,9 +28,9 @@ type Admin = {
 }
 
 const AdminNew: React.FC = React.memo(() => {
-    const [isLoading, setIsLoading] = useState(false);
-    const { openSnackbar } = useSnackbar();
-    const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useRecoilState(loadingState);
+    const { openSnackbar }          = useSnackbar();
+    const navigate                  = useNavigate();
 
     const useFormMethods = useForm<Admin>({
         defaultValues: {

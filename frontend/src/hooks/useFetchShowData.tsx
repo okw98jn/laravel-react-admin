@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
+import { useRecoilState } from 'recoil';
 
 import { axiosClient } from '../Axios/AxiosClientProvider'
+import { loadingState } from '../Recoil/Admin/loading';
 
 function useFetchShowData<T>(url: string) {
-    const [data, setData] = useState<T>();
-    const [isLoading, setIsLoading] = useState(true);
+    const [data, setData]           = useState<T>();
+    const [isLoading, setIsLoading] = useRecoilState(loadingState);
 
     useEffect(() => {
         axiosClient.get(url)

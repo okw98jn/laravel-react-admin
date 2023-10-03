@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import { AlertColor } from '@mui/material';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { MAX_PAGE_COUNT, ModalTypeEnum } from '../../../../consts/CommonConst'
 import Icon from '../atoms/Icon';
@@ -11,21 +11,23 @@ import { useSnackbar } from '../../../../Recoil/Admin/snackbarState';
 import Admin from '../../../../types/Admin';
 import { axiosClient } from '../../../../Axios/AxiosClientProvider';
 import { pageState } from '../../../../Recoil/Admin/paginateState';
+import { loadingState } from '../../../../Recoil/Admin/loading';
 
 type Props = {
     id: number;
     data: Admin[];
     setData: React.Dispatch<React.SetStateAction<Admin[]>>;
-    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
     modalApi: string;
     modalTitle: string;
     snackbarText: string;
     snackbarSeverity: AlertColor;
 }
-const TableTdBtn: React.FC<Props> = React.memo(({ id, data, setData, setIsLoading, modalTitle, modalApi, snackbarText, snackbarSeverity }) => {
+const TableTdBtn: React.FC<Props> = React.memo(({ id, data, setData, modalTitle, modalApi, snackbarText, snackbarSeverity }) => {
     const [page, setPage]               = useRecoilState(pageState);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const { openSnackbar }              = useSnackbar();
+    const setIsLoading                  = useSetRecoilState(loadingState);
+
     const handleSubmit                  = (e: React.FormEvent<HTMLFormElement>, id: number): void => {
         setIsLoading(true);
         e.preventDefault();

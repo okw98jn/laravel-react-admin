@@ -13,7 +13,7 @@ import Paginate from "../../components/Paginate";
 import { itemOffsetState } from "../../../Recoil/Admin/paginateState";
 
 const AdminList: React.FC = React.memo(() => {
-    const { data: admins, setData: setAdmins, isLoading, setIsLoading } = useFetchData<Admin>('/api/admin/admin/admins');
+    const { data: admins, setData: setAdmins, isLoading } = useFetchData<Admin>('/api/admin/admin/admins');
     const itemsPerPage: number            = MAX_PAGE_COUNT;
     const [currentItems, setCurrentItems] = useState<Admin[]>([]);
     const [pageCount, setPageCount]       = useState<number>(0);
@@ -33,7 +33,7 @@ const AdminList: React.FC = React.memo(() => {
                 <TableHeader title="管理者一覧" newPath="/admin/admin/new" searchPath="" />
                 <table className="min-w-full divide-y divide-gray-200 border-b">
                     <Thead trList={AdminTheadInfo} />
-                    <Tbody allAdmin={admins} admins={currentItems} setAdmins={setAdmins} setIsLoading={setIsLoading} />
+                    <Tbody allAdmin={admins} admins={currentItems} setAdmins={setAdmins}/>
                 </table>
                 <Paginate pageCount={pageCount} dataLength={admins.length} itemsPerPage={itemsPerPage} setItemOffset={setItemOffset} />
             </div>
