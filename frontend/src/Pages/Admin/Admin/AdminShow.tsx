@@ -11,13 +11,11 @@ import Icon from "../components/atoms/Icon";
 import { AdminRole } from "../../../consts/AdminConst";
 import StatusIcon from "../components/atoms/StatusIcon";
 import IconBtn from "../../components/btns/IconBtn";
-import Loading from "../../components/Loading";
 
 const AdminShow: React.FC = React.memo(() => {
     const id = useParams().id;
-    const { data: admin, isLoading } = useFetchShowData<Admin>(`/api/admin/admin/${id}`);
+    const { data: admin } = useFetchShowData<Admin>(`/api/admin/admin/${id}`);
 
-    if (isLoading) return <Loading />;
     if (admin) {
         return (
             <div className='p-14 h-full w-2/4'>
