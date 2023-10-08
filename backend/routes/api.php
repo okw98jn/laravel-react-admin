@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Admin\AdminController;
+use App\Http\Controllers\Api\Admin\Auth\LoginController;
+use App\Http\Controllers\Api\Admin\Auth\LogoutController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,6 +17,9 @@ use App\Http\Controllers\Api\Admin\AdminController;
 */
 
 Route::prefix('admin')->name('admin.')->group(function () {
+    Route::post('/login', LoginController::class)->name('login');
+    Route::post('/logout', LogoutController::class)->name('logout');
+
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('admins', [AdminController::class, 'getAllAdmins'])->name('admins');
         Route::post('admin', [AdminController::class, 'storeAdmin'])->name('admin');
