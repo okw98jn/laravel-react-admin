@@ -7,6 +7,7 @@ import { NotFound } from '../Pages/NotFound'
 export const axiosClient = axios.create({
     baseURL: API_URL,
     timeout: 5000,
+    withCredentials: true,
     headers: {
         'Content-Type': 'application/json'
     }
@@ -35,7 +36,7 @@ export function AxiosClientProvider({ children }: { children: React.ReactElement
                         setNotFoundError(true);
                         break
                     default:
-                        break
+                        setNotFoundError(true);
                 }
                 return Promise.reject(error)
             }

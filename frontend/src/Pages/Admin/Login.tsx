@@ -6,12 +6,15 @@ import { FaUserCircle } from "react-icons/fa";
 import Input from "../components/InputControl";
 import IconBtn from "../components/btns/IconBtn";
 import Icon from "./components/atoms/Icon";
-import LoginStoreValidation from "../../Validation/Admin/LoginStoreValidation";
+import LoginValidation from "../../Validation/Admin/LoginValidation";
+import { axiosClient } from "../../Axios/AxiosClientProvider";
+import axios from "axios";
 
 type AdminLogin = {
     login_id: string;
     password: string;
 }
+
 const Login: React.FC = React.memo(() => {
     const useFormMethods = useForm<AdminLogin>({
         defaultValues: {
@@ -19,12 +22,19 @@ const Login: React.FC = React.memo(() => {
             password: '',
         },
         mode: 'onSubmit',
-        resolver: zodResolver(LoginStoreValidation)
+        resolver: zodResolver(LoginValidation)
     });
 
     const { handleSubmit } = useFormMethods;
-    const onSubmit: SubmitHandler<AdminLogin> = () => {
-        alert(1)
+    const onSubmit: SubmitHandler<AdminLogin> = (data: AdminLogin) => {
+        axiosClient.get('/sanctum/csrf-cookie').then(response => {
+            axiosClient.post('/api/admin/login/', data)
+                .then(() => {
+                    console.log(data)
+                }).catch(error => {
+                    throw error
+                })
+        })
     };
     return (
         <div className="w-1/5 mx-auto pt-24">
