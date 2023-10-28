@@ -16,8 +16,8 @@ use App\Http\Controllers\Api\Admin\Auth\LogoutController;
 */
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::post('/login', LoginController::class)->name('login');
-    Route::post('/logout', LogoutController::class)->name('logout');
+    Route::post('login', [LoginController::class, 'login'])->name('login');
+    Route::post('logout', [logoutController::class, 'logout'])->name('login');
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('admin')->name('admin.')->group(function () {

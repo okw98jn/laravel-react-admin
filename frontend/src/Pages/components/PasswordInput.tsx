@@ -7,8 +7,9 @@ type Props = {
     label: string;
     name: string;
     isRequired?: boolean;
+    size?: "small" | "medium";
 }
-const PasswordInput: React.FC<Props> = React.memo(({ label, name, isRequired = true }) => {
+const PasswordInput: React.FC<Props> = React.memo(({ label, name, isRequired = true, size = 'small' }) => {
     const { control } = useFormContext();
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -17,7 +18,7 @@ const PasswordInput: React.FC<Props> = React.memo(({ label, name, isRequired = t
     };
 
     return (
-        <FormControl fullWidth variant="outlined" size="small">
+        <FormControl fullWidth variant="outlined" size={size}>
             <Controller
                 name={name}
                 control={control}

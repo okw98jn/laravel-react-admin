@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FormProvider, useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaUserCircle } from "react-icons/fa";
@@ -8,7 +8,8 @@ import IconBtn from "../components/btns/IconBtn";
 import Icon from "./components/atoms/Icon";
 import LoginValidation from "../../Validation/Admin/LoginValidation";
 import { axiosClient } from "../../Axios/AxiosClientProvider";
-import axios from "axios";
+import { useSnackbar } from "../../Recoil/Admin/snackbarState";
+import PasswordInput from "../components/PasswordInput";
 
 type AdminLogin = {
     login_id: string;
@@ -16,6 +17,8 @@ type AdminLogin = {
 }
 
 const Login: React.FC = React.memo(() => {
+    const [isLoginError, setIsLoginError] = useState<boolean>(false);
+    const { openSnackbar } = useSnackbar();
     const useFormMethods = useForm<AdminLogin>({
         defaultValues: {
             login_id: '',
@@ -27,10 +30,19 @@ const Login: React.FC = React.memo(() => {
 
     const { handleSubmit } = useFormMethods;
     const onSubmit: SubmitHandler<AdminLogin> = (data: AdminLogin) => {
-        axiosClient.get('/sanctum/csrf-cookie').then(response => {
+        axiosClient.get('/sanctum/csrf-cookie').then(() => {
             axiosClient.post('/api/admin/login/', data)
-                .then(() => {
-                    console.log(data)
+                .then((res) => {
+                    if (res.data.isAuthenticated) {
+                        setIsLoginError(false);
+                        openSnackbar({
+                            text: 'ログイン成功',
+                            severity: 'success'
+                        });
+                    } else {
+                        setIsLoginError(true);
+                    }
+                    console.log(res)
                 }).catch(error => {
                     throw error
                 })
@@ -48,8 +60,11 @@ const Login: React.FC = React.memo(() => {
                         <Input name="login_id" label="ログインID" size="medium" />
                     </div>
                     <div className="mb-5 w-full">
-                        <Input name="password" label="パスワード" size="medium" />
+                        <PasswordInput name="password" label="パスワード" isRequired={false} size="medium" />
                     </div>
+                    {isLoginError && (
+                        <p className="text-red-600 text-sm mb-3">ログインIDまたはパスワードが間違っています</p>
+                    )}
                     <div className="w-full">
                         <IconBtn text="ログイン" color='primary' variant='contained' size="large" isSubmit={true} />
                     </div>

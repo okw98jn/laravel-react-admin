@@ -17,15 +17,12 @@ export function AxiosClientProvider({ children }: { children: React.ReactElement
     const [NotFoundError, setNotFoundError] = useState<boolean>(false);
 
     React.useEffect(() => {
-        // リクエスト インターセプター
         const requestInterceptors = axiosClient.interceptors.request.use((config) => {
-            if (config.headers !== undefined) {
-                //ログ処理等記述
-            }
-            return config
+            const url = `${config.baseURL}${config.url}`;
+            console.log(`Method=${config.method} Url=${url} Body=${JSON.stringify(config.data)}`);
+            return config;
         })
 
-        // レスポンス インターセプター
         const responseInterceptor = axiosClient.interceptors.response.use(
             (response) => {
                 return response
@@ -41,7 +38,6 @@ export function AxiosClientProvider({ children }: { children: React.ReactElement
                 return Promise.reject(error)
             }
         )
-        // クリーンアップ
         return () => {
             axiosClient.interceptors.request.eject(requestInterceptors)
             axiosClient.interceptors.response.eject(responseInterceptor)
