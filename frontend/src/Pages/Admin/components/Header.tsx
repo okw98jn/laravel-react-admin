@@ -10,13 +10,14 @@ import { useNavigate } from 'react-router-dom';
 import { useAdminState } from '../../../Recoil/Admin/auth';
 
 const Header: React.FC = React.memo(() => {
-    const { admin }           = useAdminState();
+    const { admin, setAdmin }           = useAdminState();
     const [isOpen, setIsOpen] = useRecoilState(sidebarState);
     const navigate            = useNavigate();
     const logoutSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
         axiosClient.post('/api/admin/logout/')
             .then(() => {
+                setAdmin(null);
                 navigate(`/admin/login`);
             }).catch(error => {
                 throw error;
