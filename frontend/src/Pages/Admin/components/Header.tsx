@@ -5,9 +5,21 @@ import { AiOutlineMenu } from 'react-icons/ai'
 import { styled } from 'styled-components'
 
 import { sidebarState } from '../../../Recoil/Admin/sidebarState';
+import { axiosClient } from '../../../Axios/AxiosClientProvider';
+import { useNavigate } from 'react-router-dom';
 
 const Header: React.FC = React.memo(() => {
     const [isOpen, setIsOpen] = useRecoilState(sidebarState);
+    const navigate            = useNavigate();
+    const logoutSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+        e.preventDefault();
+        axiosClient.post('/api/admin/logout/')
+            .then(() => {
+                navigate(`/admin/login`);
+            }).catch(error => {
+                throw error;
+            });
+    }
     return (
         <HeaderArea>
             <div className='hover:cursor-pointer'>
@@ -26,7 +38,9 @@ const Header: React.FC = React.memo(() => {
                                 </svg>
                             </button>
                             <div className="hs-dropdown-menu transition-[opacity,margin] duration-[0.9ms] sm:duration-[250ms] hs-dropdown-open:opacity-100 opacity-0 sm:w-48 hidden z-10 sm:mt-3 bg-white sm:shadow-md rounded-lg p-2 before:absolute top-full sm:border before:-top-5 before:left-0 before:w-full before:h-5">
-                                <a className="flex items-center gap-x-3.5 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100" href="#">ログアウト</a>
+                                <form onSubmit={e => logoutSubmit(e)}>
+                                    <button className="flex items-center gap-x-3.5 py-2 px-3 w-full rounded-md text-sm text-gray-800 hover:bg-gray-100">ログアウト</button>
+                                </form>
                             </div>
                         </div>
                     </div>
