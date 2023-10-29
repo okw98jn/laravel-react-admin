@@ -9,7 +9,7 @@ import SideBarSmallList from '../molecules/SideBarSmallList';
 const SideBarSmall: React.FC = React.memo(() => {
     return (
         <SideBar className="flex flex-col items-center">
-            <Link to="/admin/admin">
+            <Link to="/admin">
                 <div className='mb-10'>
                     <MainLogo />
                 </div>

@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FaUserCircle } from "react-icons/fa";
 import { AxiosResponse } from "axios";
 import { useRecoilState } from "recoil";
+import { useNavigate } from "react-router-dom";
 
 import Input from "../components/InputControl";
 import IconBtn from "../components/btns/IconBtn";
@@ -13,7 +14,7 @@ import { axiosClient } from "../../Axios/AxiosClientProvider";
 import { useSnackbar } from "../../Recoil/Admin/snackbarState";
 import PasswordInput from "../components/PasswordInput";
 import { loadingState } from "../../Recoil/Admin/loading";
-import { useNavigate } from "react-router-dom";
+import { useAdminState } from "../../Recoil/Admin/auth";
 
 type LoginRequest = {
     login_id: string;
@@ -21,10 +22,13 @@ type LoginRequest = {
 }
 
 type LoginResponse = {
-    isAuthenticated: boolean;
+    id: number;
+    name: string;
+    role: number;
 }
 
 const Login: React.FC = React.memo(() => {
+    const { setAdmin } = useAdminState();
     const [isLoginError, setIsLoginError] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useRecoilState(loadingState);
     const navigate = useNavigate();
@@ -45,7 +49,13 @@ const Login: React.FC = React.memo(() => {
             axiosClient.post('/api/admin/login/', data)
                 .then((res: AxiosResponse<LoginResponse>) => {
                     setIsLoading(false);
-                    if (res.data.isAuthenticated) {
+                    if (res.data.id) {
+                        const authAdmin = {
+                            id: res.data.id,
+                            name: res.data.name,
+                            role: res.data.role,
+                        }
+                        setAdmin(authAdmin);
                         navigate(`/admin`);
                         openSnackbar({
                             text: 'ログイン成功',

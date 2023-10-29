@@ -9,7 +9,7 @@ import SideBarFullList from '../molecules/SideBarFullList';
 const SideBarFull: React.FC = React.memo(() => {
     return (
         <SideBar>
-            <Link to="/admin/admin" className='hover:text-white'>
+            <Link to="/admin" className='hover:text-white'>
                 <div className='flex justify-center items-center mb-6'>
                     <MainLogo />
                     <h2 className='text-xl ml-1'>Laravel + React</h2>

@@ -18,7 +18,12 @@ class LoginController extends Controller
         $credentials     = $request->only(['login_id', 'password']);
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return response()->json(['isAuthenticated' => true], JsonResponse::HTTP_OK);
+            $admin = [
+                'id'   => Auth::user()->id ?? null,
+                'name' => Auth::user()->name ?? null,
+                'role' => Auth::user()->role ?? null,
+            ];
+            return response()->json($admin, JsonResponse::HTTP_OK);
         }
         return response()->json([], JsonResponse::HTTP_OK);
     }
