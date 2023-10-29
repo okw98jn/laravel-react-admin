@@ -14,19 +14,16 @@ class LoginController extends Controller
      */
     public function login(Request $request)
     {
+        //TODOステータス有効チェックする
         $credentials     = $request->only(['login_id', 'password']);
-        $isAuthenticated = false;
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            $isAuthenticated = true;
-            $user            = Auth::user();
-
-            return response()->json(['isAuthenticated' => $isAuthenticated, 'user' => $user], JsonResponse::HTTP_OK);
+            return response()->json(['isAuthenticated' => true], JsonResponse::HTTP_OK);
         }
-        return response()->json(['isAuthenticated' => $isAuthenticated], JsonResponse::HTTP_OK);
+        return response()->json([], JsonResponse::HTTP_OK);
     }
 
-    public function username()
+    protected function username()
     {
         return 'login_id';
     }

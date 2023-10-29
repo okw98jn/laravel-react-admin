@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { FormProvider, useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaUserCircle } from "react-icons/fa";
+import { AxiosResponse } from "axios";
+import { useRecoilState } from "recoil";
 
 import Input from "../components/InputControl";
 import IconBtn from "../components/btns/IconBtn";
@@ -10,16 +12,24 @@ import LoginValidation from "../../Validation/Admin/LoginValidation";
 import { axiosClient } from "../../Axios/AxiosClientProvider";
 import { useSnackbar } from "../../Recoil/Admin/snackbarState";
 import PasswordInput from "../components/PasswordInput";
+import { loadingState } from "../../Recoil/Admin/loading";
+import { useNavigate } from "react-router-dom";
 
-type AdminLogin = {
+type LoginRequest = {
     login_id: string;
     password: string;
 }
 
+type LoginResponse = {
+    isAuthenticated: boolean;
+}
+
 const Login: React.FC = React.memo(() => {
     const [isLoginError, setIsLoginError] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useRecoilState(loadingState);
+    const navigate = useNavigate();
     const { openSnackbar } = useSnackbar();
-    const useFormMethods = useForm<AdminLogin>({
+    const useFormMethods = useForm<LoginRequest>({
         defaultValues: {
             login_id: '',
             password: '',
@@ -29,12 +39,14 @@ const Login: React.FC = React.memo(() => {
     });
 
     const { handleSubmit } = useFormMethods;
-    const onSubmit: SubmitHandler<AdminLogin> = (data: AdminLogin) => {
+    const onSubmit: SubmitHandler<LoginRequest> = (data: LoginRequest) => {
+        setIsLoading(true);
         axiosClient.get('/sanctum/csrf-cookie').then(() => {
             axiosClient.post('/api/admin/login/', data)
-                .then((res) => {
+                .then((res: AxiosResponse<LoginResponse>) => {
+                    setIsLoading(false);
                     if (res.data.isAuthenticated) {
-                        setIsLoginError(false);
+                        navigate(`/admin`);
                         openSnackbar({
                             text: 'ログイン成功',
                             severity: 'success'
@@ -42,8 +54,8 @@ const Login: React.FC = React.memo(() => {
                     } else {
                         setIsLoginError(true);
                     }
-                    console.log(res)
                 }).catch(error => {
+                    setIsLoading(false);
                     throw error
                 })
         })
@@ -66,7 +78,7 @@ const Login: React.FC = React.memo(() => {
                         <p className="text-red-600 text-sm mb-3">ログインIDまたはパスワードが間違っています</p>
                     )}
                     <div className="w-full">
-                        <IconBtn text="ログイン" color='primary' variant='contained' size="large" isSubmit={true} />
+                        <IconBtn text="ログイン" color='primary' variant='contained' size="large" isSubmit={true} isLoading={isLoading} />
                     </div>
                 </form>
             </FormProvider>
