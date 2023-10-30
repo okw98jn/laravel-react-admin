@@ -2,13 +2,11 @@ import React from 'react'
 import { Outlet } from "react-router-dom";
 import { styled } from 'styled-components';
 
-import SideBar from './components/SideBar';
 import Header from './components/Header';
 
 const Layout: React.FC = React.memo(() => {
     return (
         <Wrap>
-            <SideBar />
             <FlexColumn>
                 <Header />
                 <Outlet />

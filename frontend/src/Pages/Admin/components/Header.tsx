@@ -1,17 +1,13 @@
 import React from 'react'
-import { useRecoilState } from 'recoil';
-import { IconContext } from 'react-icons'
-import { AiOutlineMenu } from 'react-icons/ai'
 import { styled } from 'styled-components'
 
-import { sidebarState } from '../../../Recoil/Admin/sidebarState';
 import { axiosClient } from '../../../Axios/AxiosClientProvider';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAdminState } from '../../../Recoil/Admin/auth';
+import SideBar from './SideBar';
 
 const Header: React.FC = React.memo(() => {
     const { admin, setAdmin } = useAdminState();
-    const [isOpen, setIsOpen] = useRecoilState(sidebarState);
     const navigate = useNavigate();
     const logoutSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
@@ -25,11 +21,7 @@ const Header: React.FC = React.memo(() => {
     }
     return (
         <HeaderArea>
-            <div className='hover:cursor-pointer'>
-                <IconContext.Provider value={{ color: '#73879C', size: '30px' }}>
-                    <AiOutlineMenu onClick={() => setIsOpen(!isOpen)} />
-                </IconContext.Provider>
-            </div>
+            <SideBar />
             <div className="relative hs-dropdown [--strategy:static] sm:[--strategy:absolute] [--adaptive:none] sm:[--trigger:hover]">
                 <button id="hs-mega-menu-basic-dr" type="button" className="flex items-center w-full text-gray-600 hover:text-gray-400 font-medium">
                     {admin?.name}
@@ -58,7 +50,7 @@ const HeaderArea = styled.header`
     display: flex; 
     align-items: center;
     justify-content: space-between;
-    padding: 0 7% 0 1%;
+    padding: 0 6% 0 2%;
 `
 
 export default Header
