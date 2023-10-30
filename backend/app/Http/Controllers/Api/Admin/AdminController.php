@@ -30,9 +30,9 @@ class AdminController extends Controller
     {
         try {
             $admin = [
-                'id'   => Auth::user()->id ?? null,
-                'name' => Auth::user()->name ?? null,
-                'role' => Auth::user()->role ?? null,
+                'id'   => Auth::user()->id,
+                'name' => Auth::user()->name,
+                'role' => Auth::user()->role,
             ];
             return response()->json($admin, JsonResponse::HTTP_OK);
         } catch (Exception $e) {
