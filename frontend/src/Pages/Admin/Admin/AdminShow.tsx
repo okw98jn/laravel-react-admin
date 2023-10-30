@@ -18,7 +18,7 @@ const AdminShow: React.FC = React.memo(() => {
 
     if (admin) {
         return (
-            <div className='p-14 h-full w-2/4'>
+            <div className='p-14 h-full mx-auto w-2/4'>
                 <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden pb-7">
                     <div className="px-12 py-4">
                         <div className="flex items-center flex-col pt-8">

@@ -28,7 +28,7 @@ const AdminList: React.FC = React.memo(() => {
     if (isLoading) return <Loading />;
 
     return (
-        <div className='p-14 h-full w-3/4'>
+        <div className='p-14 h-full w-11/12 mx-auto'>
             <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden pb-7">
                 <TableHeader title="管理者一覧" newPath="/admin/admin/new" searchPath="" />
                 <table className="min-w-full divide-y divide-gray-200 border-b">
