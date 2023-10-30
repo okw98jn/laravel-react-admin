@@ -6,7 +6,7 @@ import { styled } from 'styled-components'
 
 import { sidebarState } from '../../../Recoil/Admin/sidebarState';
 import { axiosClient } from '../../../Axios/AxiosClientProvider';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAdminState } from '../../../Recoil/Admin/auth';
 
 const Header: React.FC = React.memo(() => {
@@ -38,7 +38,9 @@ const Header: React.FC = React.memo(() => {
                     </svg>
                 </button>
                 <div className="hs-dropdown-menu transition-[opacity,margin] duration-[0.9ms] sm:duration-[250ms] hs-dropdown-open:opacity-100 opacity-0 sm:w-40 hidden z-10 sm:mt-3 bg-white sm:shadow-md rounded-lg p-2 before:absolute top-full sm:border before:-top-5 before:left-0 before:w-full before:h-5">
-                    <button className="flex items-center gap-x-3.5 py-2 mb-1 px-3 w-full rounded-md text-sm text-gray-800 hover:bg-gray-100">マイページ</button>
+                    <Link to={`/admin/admin/${admin?.id}`}>
+                        <button className="flex items-center gap-x-3.5 py-2 mb-1 px-3 w-full rounded-md text-sm text-gray-800 hover:bg-gray-100">マイページ</button>
+                    </Link>
                     <form onSubmit={e => logoutSubmit(e)}>
                         <button className="flex items-center gap-x-3.5 py-2 mb-1 px-3 w-full rounded-md text-sm text-gray-800 hover:bg-gray-100">ログアウト</button>
                     </form>
