@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { SideBarInfo } from '../../../../consts/AdminConst'
 import MainLogo from '../atoms/MainLogo';
-import SideBarFullList from '../molecules/SideBarFullList';
+import SideBarFullList from '../molecules/SideBarList';
 
 const SideBarFull: React.FC = React.memo(() => {
     return (
@@ -17,7 +17,7 @@ const SideBarFull: React.FC = React.memo(() => {
             </Link>
             <ul>
                 {SideBarInfo.map((item) => (
-                    <SideBarFullList key={item.key} href={item.href} svg={item.svg} title={item.title} />
+                    <SideBarFullList key={item.key} href={item.href} svg={item.svg} title={item.title} subInfo={item.subInfo} />
                 ))}
             </ul>
         </SideBar>

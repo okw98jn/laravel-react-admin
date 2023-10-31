@@ -1,29 +1,65 @@
-import { FiUser, FiUsers } from 'react-icons/fi';
+import { GrAidOption, GrCart, GrHome, GrPersonalComputer, GrRss, GrUserAdmin } from "react-icons/gr";
 
-export enum AdminSideBarStatusEnum {
-    Admin = 1,
+export enum AdminSideBarEnum {
+    Dashboard = 1,
     User,
+    Admin,
+}
+
+export enum AdminSideBarItemEnum {
+    Module = 1,
+    Plan,
+    Option,
 }
 
 export const SideBarInfo = [
     {
-        key: AdminSideBarStatusEnum.Admin,
-        title: '管理者',
-        href: '/admin/admin',
-        svg: <FiUsers />
+        key: AdminSideBarEnum.Dashboard,
+        title: 'ダッシュボード',
+        href: '/admin',
+        svg: <GrHome />,
+        subInfo: []
     },
     {
-        key: AdminSideBarStatusEnum.User,
-        title: 'ユーザー',
-        href: '/admin/users',
-        svg: <FiUser />
+        key: AdminSideBarEnum.User,
+        title: '商品',
+        href: '',
+        svg: <GrCart />,
+        subInfo: [
+            {
+                key: AdminSideBarItemEnum.Module,
+                title: '端末',
+                href: '/admin/admin',
+                svg: <GrPersonalComputer />
+            },
+            {
+                key: AdminSideBarItemEnum.Plan,
+                title: 'プラン',
+                href: '/admin/admin',
+                svg: <GrRss />
+            },
+            {
+                key: AdminSideBarItemEnum.Option,
+                title: 'オプション',
+                href: '/admin/admin',
+                svg: <GrAidOption />
+            },
+        ]
     },
+    {
+        key: AdminSideBarEnum.Admin,
+        title: '管理者',
+        href: '/admin/admin',
+        svg: <GrUserAdmin />,
+        subInfo: []
+    },
+
 ]
 
 //管理者ステータス
 export enum AdminStatusEnum {
     InValid = 0,
-    Valid   = 1,
+    Valid = 1,
 }
 
 //管理者ステータスリスト
