@@ -21,7 +21,6 @@ const Paginate: React.FC<Props> = React.memo(({ pageCount, dataLength, itemsPerP
 
     return (
         <div className="flex justify-center mt-7 items-center">
-            <span className='text-gray-600'>Page: {page}</span>
             <Pagination
                 count={pageCount}
                 onChange={handleChange}
