@@ -9,6 +9,7 @@ function useFetchData<T>(url: string) {
     const [isLoading, setIsLoading] = useRecoilState(loadingState);
 
     useEffect(() => {
+        setIsLoading(true);
         axiosClient.get(url)
             .then((results) => {
                 setData(results.data);
