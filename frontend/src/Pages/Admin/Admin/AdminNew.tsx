@@ -9,7 +9,6 @@ import { useRecoilState } from "recoil";
 import Icon from "../components/atoms/Icon";
 import IconBtn from "../../components/btns/IconBtn";
 import PasswordInput from "../../components/PasswordInput";
-import Input from "../../components/InputControl";
 import RadioBtn from "../../components/RadioBtn";
 import SelectBox from "../../components/SelectBox";
 import { AdminRoleList, AdminStatusEnum, AdminStatusList } from "../../../consts/AdminConst";
@@ -17,6 +16,7 @@ import StoreValidation from "../../../Validation/Admin/Admin/StoreValidation";
 import { useSnackbar } from "../../../Recoil/Admin/snackbarState";
 import { axiosClient } from '../../../Axios/AxiosClientProvider';
 import { loadingState } from "../../../Recoil/Admin/loading";
+import InputControl from "../../components/InputControl";
 
 type Admin = {
     name: string;
@@ -72,10 +72,10 @@ const AdminNew: React.FC = React.memo(() => {
                         <FormProvider {...useFormMethods}>
                             <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col items-center">
                                 <div className="w-2/3 mb-7">
-                                    <Input label="名前" name="name" isRequired={true} />
+                                    <InputControl label="名前" name="name" isRequired={true} />
                                 </div>
                                 <div className="w-2/3 mb-7">
-                                    <Input label="ログインID" name="login_id" isRequired={true} />
+                                    <InputControl label="ログインID" name="login_id" isRequired={true} />
                                 </div>
                                 <div className="w-2/3 mb-7">
                                     <PasswordInput label="パスワード" name="password" />
