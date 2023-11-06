@@ -19,6 +19,19 @@ class CommonRepository
         return $this->model->all();
     }
 
+    public function searchData(array $keywords)
+    {
+        $query = $this->model->query();
+
+        foreach ($keywords as $key => $value) {
+            if ($value !== null) {
+                $query->where($key, 'like', '%' . $value . '%');
+            }
+        }
+
+        return $query->get();
+    }
+
     public function create(array $data)
     {
         return DB::transaction(function () use ($data) {
@@ -37,7 +50,7 @@ class CommonRepository
     {
         return $this->model->find($id);
     }
-    
+
     public function dataExists(array $where)
     {
         return $this->model->where($where)->exists();

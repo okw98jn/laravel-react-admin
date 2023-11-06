@@ -23,6 +23,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('admins', [AdminController::class, 'getAllAdmins'])->name('admins');
+            Route::get('search', [AdminController::class, 'search'])->name('search');
             Route::post('admin', [AdminController::class, 'storeAdmin'])->name('admin');
             Route::get('{id}', [AdminController::class, 'showAdmin'])->name('show_admin');
             Route::post('update/{id}', [AdminController::class, 'updateAdmin'])->name('update_admin');

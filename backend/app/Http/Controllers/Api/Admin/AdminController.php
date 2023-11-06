@@ -50,6 +50,17 @@ class AdminController extends Controller
         }
     }
 
+    public function search(Request $request)
+    {
+        try {
+            $searchKeywords = $request->only(['name', 'login_id', 'role', 'status']);
+            $admins         = $this->adminRepository->searchData($searchKeywords);
+            return response()->json($admins, JsonResponse::HTTP_OK);
+        } catch (Exception $e) {
+            return $this->errorResponse($e);
+        }
+    }
+
     public function storeAdmin(Request $request)
     {
         try {

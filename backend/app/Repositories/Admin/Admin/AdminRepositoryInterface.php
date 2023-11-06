@@ -5,6 +5,8 @@ namespace App\Repositories\Admin\Admin;
 interface AdminRepositoryInterface
 {
     public function getAll();
+
+    public function searchData(array $searchKeywords);
     
     public function create(array $data);
 
