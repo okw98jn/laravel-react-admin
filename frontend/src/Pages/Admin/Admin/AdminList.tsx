@@ -10,7 +10,7 @@ import Loading from "../../components/Loading";
 import Thead from "../components/organisms/Thead";
 import Tbody from "./components/Tbody";
 import Paginate from "../../components/Paginate";
-import { itemOffsetState } from "../../../Recoil/Admin/paginateState";
+import { itemOffsetState } from "../../../Recoil/Admin/Admin/paginateState";
 
 const AdminList: React.FC = React.memo(() => {
     const { data: admins, setData: setAdmins, isLoading } = useFetchData<Admin>('/api/admin/admin/admins');

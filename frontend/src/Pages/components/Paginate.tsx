@@ -2,7 +2,7 @@ import React from 'react'
 import { useRecoilState } from 'recoil';
 import { Pagination } from '@mui/material';
 
-import { pageState } from "../../Recoil/Admin/paginateState"
+import { pageState } from "../../Recoil/Admin/Admin/paginateState"
 
 type Props = {
     pageCount: number;

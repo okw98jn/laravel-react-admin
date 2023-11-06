@@ -5,7 +5,7 @@ import TableTd from "../../components/molecules/TableTd";
 import TableTdBtn from "../../components/molecules/TableTdBtn";
 import { AdminRole } from "../../../../consts/AdminConst";
 import Admin from "../../../../types/Admin";
-import { pageState } from "../../../../Recoil/Admin/paginateState";
+import { pageState } from "../../../../Recoil/Admin/Admin/paginateState";
 import { MAX_PAGE_COUNT } from "../../../../consts/CommonConst";
 
 type Props = {

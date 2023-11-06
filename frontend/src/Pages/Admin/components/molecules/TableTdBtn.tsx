@@ -10,7 +10,7 @@ import ConfirmModal from '../../../components/ConfirmModal';
 import { useSnackbar } from '../../../../Recoil/Admin/snackbarState';
 import Admin from '../../../../types/Admin';
 import { axiosClient } from '../../../../Axios/AxiosClientProvider';
-import { pageState } from '../../../../Recoil/Admin/paginateState';
+import { pageState } from '../../../../Recoil/Admin/Admin/paginateState';
 import { loadingState } from '../../../../Recoil/Admin/loading';
 
 type Props = {
