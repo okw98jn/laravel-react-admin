@@ -6,7 +6,7 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import Icon from '../Admin/components/atoms/Icon';
 import InputControl from './InputControl';
 import SelectBox from './SelectBox';
-import { AdminRoleList, AdminStatusEnum, AdminStatusList } from '../../consts/AdminConst';
+import { AdminRoleList, AdminStatusList } from '../../consts/AdminConst';
 import RadioBtn from './RadioBtn';
 import IconBtn from './btns/IconBtn';
 import { axiosClient } from '../../Axios/AxiosClientProvider';
@@ -21,7 +21,7 @@ type Props = {
 type Admin = {
     name: string;
     login_id: string;
-    status: number;
+    status: number | '';
     role: number | '';
 }
 
@@ -33,7 +33,7 @@ const SearchModal: React.FC<Props> = React.memo(({ isModalOpen, setIsModalOpen, 
             name: '',
             login_id: '',
             role: '',
-            status: AdminStatusEnum.Valid
+            status: ''
         },
         mode: 'onSubmit',
     });

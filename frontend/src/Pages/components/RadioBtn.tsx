@@ -13,7 +13,6 @@ type Props = {
     isRequired?: boolean;
     size?: "small" | "medium";
     items: Item[];
-    // defaultChecked: number;
 }
 
 const RadioBtn: React.FC<Props> = React.memo(({ label, name, isRequired = false, items }) => {
