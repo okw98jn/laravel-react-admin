@@ -23,5 +23,11 @@ class Admin extends Authenticatable
         'role',
     ];
 
+    protected $hidden = [
+        'password',
+        'updated_at',
+        'deleted_at',
+    ];
+
     protected $dates = ['deleted_at'];
 }
