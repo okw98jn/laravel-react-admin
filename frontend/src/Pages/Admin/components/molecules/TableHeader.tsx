@@ -1,16 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import { FiPlus, FiSearch } from 'react-icons/fi';
 
 import IconBtn from '../../../components/btns/IconBtn';
+import SearchModal from '../../../components/SearchModal';
 
 type Props = {
     title: string;
     searchPath: string;
-    newPath: string;
+    createPagePath: string;
 }
 
-const TableHeader: React.FC<Props> = React.memo(({ title, searchPath, newPath }) => {
+const TableHeader: React.FC<Props> = React.memo(({ title, searchPath, createPagePath }) => {
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     return (
         <div className="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200">
             <div>
@@ -18,10 +20,11 @@ const TableHeader: React.FC<Props> = React.memo(({ title, searchPath, newPath })
             </div>
             <div>
                 <div className="inline-flex gap-x-2">
-                    <Link to={searchPath}>
+                    <p onClick={() => setIsModalOpen(!isModalOpen)}>
                         <IconBtn text="検索" svg={<FiSearch />} color='info' variant='contained' />
-                    </Link>
-                    <Link to={newPath}>
+                    </p>
+                    <SearchModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} searchPath={searchPath} />
+                    <Link to={createPagePath}>
                         <IconBtn text="追加" svg={<FiPlus />} color='primary' variant='contained' />
                     </Link>
                 </div>
