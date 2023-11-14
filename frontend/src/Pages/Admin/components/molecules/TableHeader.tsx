@@ -5,13 +5,15 @@ import { FiPlus, FiSearch } from 'react-icons/fi';
 import IconBtn from '../../../components/btns/IconBtn';
 import SearchModal from '../../../components/SearchModal';
 
-type Props = {
+type Props<T> = {
     title: string;
     searchPath: string;
     createPagePath: string;
+    setPageCount: React.Dispatch<React.SetStateAction<number>>;
+    setCurrentItems: React.Dispatch<React.SetStateAction<T[]>>;
 }
 
-const TableHeader: React.FC<Props> = React.memo(({ title, searchPath, createPagePath }) => {
+const TableHeader = <T,>({ title, searchPath, createPagePath, setPageCount, setCurrentItems }: Props<T>) => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     return (
         <div className="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200">
@@ -23,7 +25,7 @@ const TableHeader: React.FC<Props> = React.memo(({ title, searchPath, createPage
                     <p onClick={() => setIsModalOpen(!isModalOpen)}>
                         <IconBtn text="検索" svg={<FiSearch />} color='info' variant='contained' />
                     </p>
-                    <SearchModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} searchPath={searchPath} />
+                    <SearchModal<T> isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} searchPath={searchPath} setPageCount={setPageCount} setCurrentItems={setCurrentItems} />
                     <Link to={createPagePath}>
                         <IconBtn text="追加" svg={<FiPlus />} color='primary' variant='contained' />
                     </Link>
@@ -31,6 +33,6 @@ const TableHeader: React.FC<Props> = React.memo(({ title, searchPath, createPage
             </div>
         </div>
     )
-})
+}
 
 export default TableHeader

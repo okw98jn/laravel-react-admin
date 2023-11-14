@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { FiSearch } from 'react-icons/fi';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 
@@ -11,11 +11,15 @@ import RadioBtn from './RadioBtn';
 import IconBtn from './btns/IconBtn';
 import { axiosClient } from '../../Axios/AxiosClientProvider';
 import { loadingState } from '../../Recoil/Admin/loading';
+import { MAX_PAGE_COUNT } from '../../consts/CommonConst';
+import { itemOffsetState } from '../../Recoil/Admin/Admin/paginateState';
 
-type Props = {
+type Props<T> = {
     isModalOpen: boolean;
     setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
     searchPath: string;
+    setPageCount: React.Dispatch<React.SetStateAction<number>>;
+    setCurrentItems: React.Dispatch<React.SetStateAction<T[]>>;
 }
 
 type Admin = {
@@ -25,9 +29,12 @@ type Admin = {
     role: number | '';
 }
 
-const SearchModal: React.FC<Props> = React.memo(({ isModalOpen, setIsModalOpen, searchPath }) => {
+const SearchModal = <T,>({ isModalOpen, setIsModalOpen, searchPath, setPageCount, setCurrentItems }: Props<T>) => {
     const [isLoading, setIsLoading] = useRecoilState(loadingState);
     const ref = useRef<HTMLInputElement | null>(null);
+    const itemOffset     = useRecoilValue(itemOffsetState);
+
+    const endOffset = itemOffset + MAX_PAGE_COUNT;
     const useFormMethods = useForm<Admin>({
         defaultValues: {
             name: '',
@@ -43,7 +50,8 @@ const SearchModal: React.FC<Props> = React.memo(({ isModalOpen, setIsModalOpen, 
         setIsLoading(true);
         axiosClient.get(searchPath, { params: data })
             .then((res) => {
-                console.log(res.data)
+                setPageCount(Math.ceil(res.data.length / MAX_PAGE_COUNT));
+                setCurrentItems(res.data.slice(itemOffset, endOffset));
             }).catch(error => {
                 throw error
             })
@@ -91,6 +99,6 @@ const SearchModal: React.FC<Props> = React.memo(({ isModalOpen, setIsModalOpen, 
             </div>
         </>
     );
-})
+}
 
 export default SearchModal
