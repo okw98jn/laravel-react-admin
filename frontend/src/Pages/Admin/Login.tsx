@@ -55,6 +55,7 @@ const Login: React.FC = React.memo(() => {
                             name: res.data.name,
                             role: res.data.role,
                         }
+                        localStorage.setItem("authAdmin", JSON.stringify(authAdmin));
                         setAdmin(authAdmin);
                         navigate(`/admin`);
                         openSnackbar({

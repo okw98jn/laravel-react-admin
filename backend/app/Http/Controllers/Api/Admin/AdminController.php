@@ -26,20 +26,6 @@ class AdminController extends Controller
         return response()->json([$e->getMessage()], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
     }
 
-    public function fetchAuthAdmin()
-    {
-        try {
-            $admin = [
-                'id'   => Auth::user()->id,
-                'name' => Auth::user()->name,
-                'role' => Auth::user()->role,
-            ];
-            return response()->json($admin, JsonResponse::HTTP_OK);
-        } catch (Exception $e) {
-            return $this->errorResponse($e);
-        }
-    }
-
     public function getAllAdmins()
     {
         try {

@@ -1,9 +1,9 @@
-import React, { lazy, Suspense, useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect } from "react";
 import { Routes, Route, Outlet, Navigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import Loading from "../Pages/components/Loading";
-import useAdminAuth from "../hooks/useAdminAuth";
+import { useAdminState } from "../Recoil/Admin/auth";
 
 const Login = lazy(() => import('../Pages/Admin/Login'))
 const Dashboard = lazy(() => import('../Pages/Admin/Dashboard'))
@@ -31,31 +31,25 @@ const theme = createTheme({
 });
 
 const AdminRoutes: React.FC = () => {
-    const { adminStatus, fetchAdmin }   = useAdminAuth();
-    const [authChecked, setAuthChecked] = useState(false);
+    const authAdmin = localStorage.getItem("authAdmin");
+    const { setAdmin } = useAdminState();
     useEffect(() => {
-        const init = async () => {
-            // ログイン中か判定
-            await fetchAdmin();
-            return setAuthChecked(true);
-        };
-        init();
-    }, []);
+        authAdmin && setAdmin(JSON.parse(authAdmin));
+    }, [setAdmin, authAdmin]);
 
-    const RouteAuthGuard = () => {
-        //ログイン状態の確認が完了していればログインチェックさせる
-        if (authChecked) {
-            return adminStatus() ? <Outlet /> : <Navigate to="admin/login" replace />;
-        } else {
-            return <></>;
-        }
+    const isLoggedIn = () => {
+        return authAdmin !== null;
+    };
+
+    const RouteAuthGuard: React.FC = () => {
+        return isLoggedIn() ? <Outlet /> : <Navigate to="admin/login" replace />;
     };
 
     return (
         <Suspense fallback={<Loading />}>
             <ThemeProvider theme={theme}>
                 <Routes>
-                    <Route path="admin/login" element={adminStatus() ? <Navigate to="/admin" /> : <Login />} />
+                    <Route path="admin/login" element={isLoggedIn() ? <Navigate to="/admin" /> : <Login />} />
                     <Route element={<RouteAuthGuard />}>
                         <Route element={<Layout />}>
                             <Route path="admin" element={<Dashboard />} />

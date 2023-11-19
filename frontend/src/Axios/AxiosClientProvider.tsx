@@ -18,8 +18,8 @@ export function AxiosClientProvider({ children }: { children: React.ReactElement
 
     React.useEffect(() => {
         const requestInterceptors = axiosClient.interceptors.request.use((config) => {
-            const url = `${config.baseURL}${config.url}`;
-            console.log(`Method=${config.method} Url=${url} Body=${JSON.stringify(config.data)}`);
+            // const url = `${config.baseURL}${config.url}`;
+            // console.log(`Method=${config.method} Url=${url} Body=${JSON.stringify(config.data)}`);
             return config;
         })
 
