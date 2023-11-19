@@ -15,7 +15,7 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
         Admin::truncate();
-        Admin::factory(200)->create();
+        Admin::factory(3000)->create();
         DB::table('admins')->insert([
             [
                 'name'              => 'admin',
