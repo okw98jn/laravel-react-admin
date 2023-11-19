@@ -10,7 +10,7 @@ import ConfirmModal from '../../../components/ConfirmModal';
 import { useSnackbar } from '../../../../Recoil/Admin/snackbarState';
 import Admin from '../../../../types/Admin';
 import { axiosClient } from '../../../../Axios/AxiosClientProvider';
-import { pageState } from '../../../../Recoil/Admin/Admin/paginateState';
+import { itemOffsetState, pageState } from '../../../../Recoil/Admin/Admin/paginateState';
 import { loadingState } from '../../../../Recoil/Admin/loading';
 
 type Props = {
@@ -25,12 +25,13 @@ type Props = {
     snackbarSeverity: AlertColor;
 }
 const TableTdBtn: React.FC<Props> = React.memo(({ id, data, setData, modalTitle, modalApi, showPath, editPath, snackbarText, snackbarSeverity }) => {
-    const [page, setPage]               = useRecoilState(pageState);
+    const [page, setPage] = useRecoilState(pageState);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-    const { openSnackbar }              = useSnackbar();
-    const setIsLoading                  = useSetRecoilState(loadingState);
+    const { openSnackbar } = useSnackbar();
+    const setIsLoading = useSetRecoilState(loadingState);
+    const setItemOffset = useSetRecoilState(itemOffsetState);
 
-    const handleSubmit                  = (e: React.FormEvent<HTMLFormElement>, id: number): void => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>, id: number): void => {
         setIsLoading(true);
         e.preventDefault();
         axiosClient.post(modalApi, { id: id })
@@ -43,12 +44,10 @@ const TableTdBtn: React.FC<Props> = React.memo(({ id, data, setData, modalTitle,
                     return item.id !== id
                 });
                 setData(newData);
-                if (newData.length % MAX_PAGE_COUNT === 0) {
-                    setPage(page - 1);
-                } else {
-                    setPage(page);
-                }
-
+                //最後のデータを削除した際に1つ前のページにする
+                const shouldDecrementPage = newData.length % MAX_PAGE_COUNT === 0;
+                setPage(shouldDecrementPage ? page - 1 : page);
+                setItemOffset((page - 1) * MAX_PAGE_COUNT % newData.length);
             }).catch(error => {
                 throw error;
             }).finally(() => {

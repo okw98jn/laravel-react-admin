@@ -15,8 +15,8 @@ import { itemOffsetState } from "../../../Recoil/Admin/Admin/paginateState";
 const AdminList: React.FC = React.memo(() => {
     const { data: admins, setData: setAdmins, isLoading } = useFetchData<Admin>('/api/admin/admin/admins');
     const [currentItems, setCurrentItems] = useState<Admin[]>([]);
-    const [pageCount, setPageCount]       = useState<number>(0);
-    const [itemOffset, setItemOffset]     = useRecoilState(itemOffsetState);
+    const [pageCount, setPageCount] = useState<number>(0);
+    const [itemOffset, setItemOffset] = useRecoilState(itemOffsetState);
     
     useEffect(() => {
         const endOffset = itemOffset + MAX_PAGE_COUNT;
@@ -29,10 +29,10 @@ const AdminList: React.FC = React.memo(() => {
     return (
         <div className='p-14 h-full w-11/12 mx-auto'>
             <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden pb-7">
-                <TableHeader<Admin> title="管理者一覧" createPagePath="/admin/admin/new" searchPath="/api/admin/admin/search" setCurrentItems={setCurrentItems} setPageCount={setPageCount} />
+                <TableHeader<Admin> title="管理者一覧" createPagePath="/admin/admin/new" searchPath="/api/admin/admin/search" setData={setAdmins} />
                 <table className="min-w-full divide-y divide-gray-200 border-b">
                     <Thead trList={AdminTheadInfo} />
-                    <Tbody allAdmin={admins} admins={currentItems} setAdmins={setAdmins}/>
+                    <Tbody allAdmin={admins} admins={currentItems} setAdmins={setAdmins} />
                 </table>
                 <Paginate pageCount={pageCount} dataLength={admins.length} itemsPerPage={MAX_PAGE_COUNT} setItemOffset={setItemOffset} />
             </div>

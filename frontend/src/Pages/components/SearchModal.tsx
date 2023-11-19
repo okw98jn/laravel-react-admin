@@ -1,7 +1,7 @@
-import React, { useRef } from 'react'
-import { useRecoilState, useRecoilValue } from 'recoil';
+import React, { useEffect, useRef } from 'react'
 import { FiSearch } from 'react-icons/fi';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import Icon from '../Admin/components/atoms/Icon';
 import InputControl from './InputControl';
@@ -10,16 +10,14 @@ import { AdminRoleList, AdminStatusList } from '../../consts/AdminConst';
 import RadioBtn from './RadioBtn';
 import IconBtn from './btns/IconBtn';
 import { axiosClient } from '../../Axios/AxiosClientProvider';
-import { loadingState } from '../../Recoil/Admin/loading';
+import { itemOffsetState, pageState } from '../../Recoil/Admin/Admin/paginateState';
 import { MAX_PAGE_COUNT } from '../../consts/CommonConst';
-import { itemOffsetState } from '../../Recoil/Admin/Admin/paginateState';
 
 type Props<T> = {
     isModalOpen: boolean;
     setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
     searchPath: string;
-    setPageCount: React.Dispatch<React.SetStateAction<number>>;
-    setCurrentItems: React.Dispatch<React.SetStateAction<T[]>>;
+    setData: React.Dispatch<React.SetStateAction<T[]>>;
 }
 
 type Admin = {
@@ -29,12 +27,11 @@ type Admin = {
     role: number | '';
 }
 
-const SearchModal = <T,>({ isModalOpen, setIsModalOpen, searchPath, setPageCount, setCurrentItems }: Props<T>) => {
-    const [isLoading, setIsLoading] = useRecoilState(loadingState);
+const SearchModal = <T,>({ isModalOpen, setIsModalOpen, searchPath, setData }: Props<T>) => {
     const ref = useRef<HTMLInputElement | null>(null);
-    const itemOffset     = useRecoilValue(itemOffsetState);
+    const [page, setPage] = useRecoilState(pageState);
+    const setItemOffset = useSetRecoilState(itemOffsetState);
 
-    const endOffset = itemOffset + MAX_PAGE_COUNT;
     const useFormMethods = useForm<Admin>({
         defaultValues: {
             name: '',
@@ -45,22 +42,29 @@ const SearchModal = <T,>({ isModalOpen, setIsModalOpen, searchPath, setPageCount
         mode: 'onSubmit',
     });
 
+    const isFirstRender = useRef(true);
+    useEffect(() => {
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+            return;
+        }
+        if (ref.current) {
+            ref.current.click();
+        }
+    }, [isModalOpen]);
+
     const { handleSubmit } = useFormMethods;
     const onSubmit: SubmitHandler<Admin> = (data: Admin) => {
-        setIsLoading(true);
         axiosClient.get(searchPath, { params: data })
             .then((res) => {
-                setPageCount(Math.ceil(res.data.length / MAX_PAGE_COUNT));
-                setCurrentItems(res.data.slice(itemOffset, endOffset));
+                setData(res.data);
+                setPage(1);
+                setItemOffset((page - 1) * MAX_PAGE_COUNT % res.data.length);
             }).catch(error => {
                 throw error
             })
-        setIsLoading(false);
         setIsModalOpen(!isModalOpen);
     };
-    if (ref.current) {
-        ref.current.click();
-    }
     return (
         <>
             <input type="hidden" ref={ref} data-hs-overlay="#hs-slide-up-animation-modal-search" />
@@ -87,7 +91,7 @@ const SearchModal = <T,>({ isModalOpen, setIsModalOpen, searchPath, setPageCount
                                                 <RadioBtn label="ステータス" name="status" isRequired={true} items={AdminStatusList} />
                                             </div>
                                             <div className="w-2/3">
-                                                <IconBtn text="検索" svg={<FiSearch />} color='primary' variant='contained' size="large" isLoading={isLoading} isSubmit={true} />
+                                                <IconBtn text="検索" svg={<FiSearch />} color='primary' variant='contained' size="large" isSubmit={true} />
                                             </div>
                                         </form>
                                     </FormProvider>
