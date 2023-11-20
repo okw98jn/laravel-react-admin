@@ -13,7 +13,6 @@ const Header: React.FC = React.memo(() => {
         e.preventDefault();
         axiosClient.post('/api/admin/logout/')
             .then(() => {
-                localStorage.removeItem("authAdmin");
                 setAdmin(null);
                 navigate(`/admin/login`);
             }).catch(error => {

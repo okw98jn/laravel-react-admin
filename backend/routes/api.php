@@ -18,7 +18,8 @@ use App\Http\Controllers\Api\Admin\Auth\LogoutController;
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('login', [LoginController::class, 'login'])->name('login');
     Route::post('logout', [logoutController::class, 'logout'])->name('login');
-
+    Route::get('/', [AdminController::class, 'fetchAuthAdmin']);
+    
     Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('admins', [AdminController::class, 'getAllAdmins'])->name('admins');
