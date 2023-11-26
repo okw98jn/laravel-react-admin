@@ -5,7 +5,7 @@ import TableTd from "../../components/molecules/TableTd";
 import TableTdBtn from "../../components/molecules/TableTdBtn";
 import { AdminRole } from "../../../../consts/AdminConst";
 import {Admin} from "../../../../types/Admin/Admin";
-import { pageState, itemOffsetState } from "../../../../Recoil/Admin/Admin/paginateState";
+import { adminPageState, adminItemOffsetState } from "../../../../Recoil/Admin/Admin/paginateState";
 import { MAX_PAGE_COUNT } from "../../../../consts/CommonConst";
 type Props = {
     allAdmin: Admin[];
@@ -14,8 +14,8 @@ type Props = {
 };
 
 const Tbody: React.FC<Props> = React.memo(({ allAdmin, admins, setAdmins }) => {
-    const [page, setPage] = useRecoilState(pageState);
-    const setItemOffset = useSetRecoilState(itemOffsetState);
+    const [page, setPage] = useRecoilState(adminPageState);
+    const setItemOffset = useSetRecoilState(adminItemOffsetState);
     const pageBaseNo = (page * MAX_PAGE_COUNT) - MAX_PAGE_COUNT;
     return (
         <tbody className="divide-y divide-gray-200">

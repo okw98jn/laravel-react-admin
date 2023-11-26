@@ -10,7 +10,7 @@ import { AdminRoleList, AdminStatusList } from '../../consts/AdminConst';
 import RadioBtn from './RadioBtn';
 import IconBtn from './btns/IconBtn';
 import { axiosClient } from '../../Axios/AxiosClientProvider';
-import { itemOffsetState, pageState } from '../../Recoil/Admin/Admin/paginateState';
+import { adminItemOffsetState, adminPageState } from '../../Recoil/Admin/Admin/paginateState';
 import { MAX_PAGE_COUNT } from '../../consts/CommonConst';
 
 type Props<T> = {
@@ -29,8 +29,8 @@ type Admin = {
 
 const SearchModal = <T,>({ isModalOpen, setIsModalOpen, searchPath, setData }: Props<T>) => {
     const ref = useRef<HTMLInputElement | null>(null);
-    const [page, setPage] = useRecoilState(pageState);
-    const setItemOffset = useSetRecoilState(itemOffsetState);
+    const [page, setPage] = useRecoilState(adminPageState);
+    const setItemOffset = useSetRecoilState(adminItemOffsetState);
 
     const useFormMethods = useForm<Admin>({
         defaultValues: {

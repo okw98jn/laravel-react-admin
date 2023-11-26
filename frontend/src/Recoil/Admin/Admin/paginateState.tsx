@@ -1,11 +1,11 @@
 import { atom } from "recoil";
 
-export const pageState = atom<number>({
-    key: 'pageState',
+export const adminPageState = atom<number>({
+    key: 'adminPageState',
     default: 1
 });
 
-export const itemOffsetState = atom<number>({
-    key: 'itemOffsetState',
+export const adminItemOffsetState = atom<number>({
+    key: 'adminItemOffsetState',
     default: 0
 });

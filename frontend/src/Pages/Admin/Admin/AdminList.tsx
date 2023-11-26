@@ -4,20 +4,21 @@ import { useRecoilState } from "recoil";
 import useFetchData from "../../../hooks/useFetchData";
 import { MAX_PAGE_COUNT } from "../../../consts/CommonConst";
 import { AdminTheadInfo } from "../../../consts/AdminConst";
-import {Admin} from "../../../types/Admin/Admin";
+import { Admin } from "../../../types/Admin/Admin";
 import TableHeader from "../components/molecules/TableHeader";
 import Loading from "../../components/Loading";
 import Thead from "../components/organisms/Thead";
 import Tbody from "./components/Tbody";
 import Paginate from "../../components/Paginate";
-import { itemOffsetState } from "../../../Recoil/Admin/Admin/paginateState";
+import { adminPageState, adminItemOffsetState } from "../../../Recoil/Admin/Admin/paginateState";
 
 const AdminList: React.FC = React.memo(() => {
     const { data: admins, setData: setAdmins, isLoading } = useFetchData<Admin>('/api/admin/admin/admins');
     const [currentItems, setCurrentItems] = useState<Admin[]>([]);
     const [pageCount, setPageCount] = useState<number>(0);
-    const [itemOffset, setItemOffset] = useRecoilState(itemOffsetState);
-    
+    const [page, setPage] = useRecoilState(adminPageState);
+    const [itemOffset, setItemOffset] = useRecoilState(adminItemOffsetState);
+
     useEffect(() => {
         const endOffset = itemOffset + MAX_PAGE_COUNT;
         setCurrentItems(admins.slice(itemOffset, endOffset));
@@ -34,7 +35,7 @@ const AdminList: React.FC = React.memo(() => {
                     <Thead trList={AdminTheadInfo} />
                     <Tbody allAdmin={admins} admins={currentItems} setAdmins={setAdmins} />
                 </table>
-                <Paginate pageCount={pageCount} dataLength={admins.length} itemsPerPage={MAX_PAGE_COUNT} setItemOffset={setItemOffset} />
+                <Paginate pageCount={pageCount} dataLength={admins.length} itemsPerPage={MAX_PAGE_COUNT} setItemOffset={setItemOffset} page={page} setPage={setPage} />
             </div>
         </div >
     )
