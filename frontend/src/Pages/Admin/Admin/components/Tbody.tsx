@@ -1,13 +1,12 @@
 import React from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 import TableTd from "../../components/molecules/TableTd";
 import TableTdBtn from "../../components/molecules/TableTdBtn";
 import { AdminRole } from "../../../../consts/AdminConst";
 import {Admin} from "../../../../types/Admin/Admin";
-import { pageState } from "../../../../Recoil/Admin/Admin/paginateState";
+import { pageState, itemOffsetState } from "../../../../Recoil/Admin/Admin/paginateState";
 import { MAX_PAGE_COUNT } from "../../../../consts/CommonConst";
-
 type Props = {
     allAdmin: Admin[];
     admins: Admin[];
@@ -15,7 +14,8 @@ type Props = {
 };
 
 const Tbody: React.FC<Props> = React.memo(({ allAdmin, admins, setAdmins }) => {
-    const page = useRecoilValue(pageState);
+    const [page, setPage] = useRecoilState(pageState);
+    const setItemOffset = useSetRecoilState(itemOffsetState);
     const pageBaseNo = (page * MAX_PAGE_COUNT) - MAX_PAGE_COUNT;
     return (
         <tbody className="divide-y divide-gray-200">
@@ -31,7 +31,7 @@ const Tbody: React.FC<Props> = React.memo(({ allAdmin, admins, setAdmins }) => {
                         <TableTd text={AdminRole[admin.role]} />
                         <TableTd status={admin.status} />
                         <TableTd text={formattedCreatedAt} />
-                        <TableTdBtn
+                        <TableTdBtn<Admin>
                             id={admin.id}
                             data={allAdmin}
                             setData={setAdmins}
@@ -41,6 +41,9 @@ const Tbody: React.FC<Props> = React.memo(({ allAdmin, admins, setAdmins }) => {
                             modalTitle="管理者を削除しますか？"
                             snackbarText="削除が完了しました"
                             snackbarSeverity="success"
+                            page={page}
+                            setPage={setPage}
+                            setItemOffset={setItemOffset}
                         />
                     </tr>
                 );

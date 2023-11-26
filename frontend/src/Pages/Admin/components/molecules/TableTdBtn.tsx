@@ -1,35 +1,35 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import { AlertColor } from '@mui/material';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 
 import { MAX_PAGE_COUNT, ModalTypeEnum } from '../../../../consts/CommonConst'
 import Icon from '../atoms/Icon';
 import { FiEdit, FiInfo, FiTrash2 } from 'react-icons/fi';
 import ConfirmModal from '../../../components/ConfirmModal';
 import { useSnackbar } from '../../../../Recoil/Admin/snackbarState';
-import {Admin} from '../../../../types/Admin/Admin';
 import { axiosClient } from '../../../../Axios/AxiosClientProvider';
-import { itemOffsetState, pageState } from '../../../../Recoil/Admin/Admin/paginateState';
 import { loadingState } from '../../../../Recoil/Admin/loading';
 
-type Props = {
+type Props<T> = {
     id: number;
-    data: Admin[];
-    setData: React.Dispatch<React.SetStateAction<Admin[]>>;
+    data: T[];
+    setData: React.Dispatch<React.SetStateAction<T[]>>;
     modalApi: string;
     showPath: string;
     editPath: string;
     modalTitle: string;
     snackbarText: string;
     snackbarSeverity: AlertColor;
+    page: number;
+    setPage: React.Dispatch<React.SetStateAction<number>>;
+    setItemOffset: React.Dispatch<React.SetStateAction<number>>;
 }
-const TableTdBtn: React.FC<Props> = React.memo(({ id, data, setData, modalTitle, modalApi, showPath, editPath, snackbarText, snackbarSeverity }) => {
-    const [page, setPage] = useRecoilState(pageState);
+
+const TableTdBtn = <T,>({ id, data, setData, modalTitle, modalApi, showPath, editPath, snackbarText, snackbarSeverity, page, setPage, setItemOffset }: Props<T>) => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const { openSnackbar } = useSnackbar();
     const setIsLoading = useSetRecoilState(loadingState);
-    const setItemOffset = useSetRecoilState(itemOffsetState);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>, id: number): void => {
         setIsLoading(true);
@@ -71,6 +71,6 @@ const TableTdBtn: React.FC<Props> = React.memo(({ id, data, setData, modalTitle,
             </div>
         </td>
     )
-})
+}
 
 export default TableTdBtn
