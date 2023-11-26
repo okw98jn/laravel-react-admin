@@ -20,6 +20,7 @@ return new class extends Migration
             $table->tinyInteger('role')->default(0)->comment('権限 0:管理者 1:一般');
             $table->softDeletes();
             $table->timestamps();
+            $table->comment('管理者');
         });
     }
 

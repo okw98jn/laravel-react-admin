@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Admin\AdminController;
+use App\Http\Controllers\Api\Admin\CategoryController;
 use App\Http\Controllers\Api\Admin\Auth\LoginController;
 use App\Http\Controllers\Api\Admin\Auth\LogoutController;
 /*
@@ -30,6 +31,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('login_id_duplicate_check', [AdminController::class, 'loginIdDuplicateCheck'])->name('login_id_duplicate_check');
             Route::post('password_check', [AdminController::class, 'passwordCheck'])->name('password_check');
             Route::post('delete', [AdminController::class, 'delete'])->name('delete');
+        });
+
+        Route::prefix('category')->name('category.')->group(function () {
+            Route::get('categories', [CategoryController::class, 'getAllCategories'])->name('categories');
+            Route::get('search', [CategoryController::class, 'search'])->name('search');
+            Route::post('category', [CategoryController::class, 'storeCategory'])->name('category');
+            Route::get('{id}', [CategoryController::class, 'showCategory'])->name('show_category');
+            Route::post('update/{id}', [CategoryController::class, 'updateCategory'])->name('update_category');
+            Route::post('category_name_duplicate_check', [CategoryController::class, 'categoryNameDuplicateCheck'])->name('category_name_duplicate_check');
+            Route::post('delete', [CategoryController::class, 'delete'])->name('delete');
         });
     });
 });

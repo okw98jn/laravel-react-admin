@@ -12,5 +12,9 @@ class RepositoryServiceProvider extends ServiceProvider
             \App\Repositories\Admin\Admin\AdminRepositoryInterface::class,
             \App\Repositories\Admin\Admin\AdminRepository::class
         );
+        $this->app->bind(
+            \App\Repositories\Admin\Category\CategoryRepositoryInterface::class,
+            \App\Repositories\Admin\Category\CategoryRepository::class
+        );
     }
 }

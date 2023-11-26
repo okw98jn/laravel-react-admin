@@ -1,4 +1,6 @@
-import { GrAidOption, GrCart, GrHome, GrPersonalComputer, GrRss, GrUserAdmin } from "react-icons/gr";
+import { GrAidOption, GrCart, GrHome, GrRss, GrUserAdmin } from "react-icons/gr";
+import { BiSolidCategory } from "react-icons/bi";
+
 
 export enum AdminSideBarEnum {
     Dashboard = 1,
@@ -28,9 +30,9 @@ export const SideBarInfo = [
         subInfo: [
             {
                 key: AdminSideBarItemEnum.Module,
-                title: '端末',
-                href: '/admin/admin',
-                svg: <GrPersonalComputer />
+                title: 'カテゴリー',
+                href: '/admin/category',
+                svg: <BiSolidCategory />
             },
             {
                 key: AdminSideBarItemEnum.Plan,
@@ -99,6 +101,14 @@ export const AdminTheadInfo = [
     'ログインID',
     '権限',
     'ステータス',
+    '登録日',
+    '',
+];
+
+//カテゴリテーブル情報
+export const CategoryTheadInfo = [
+    'No',
+    'カテゴリ名',
     '登録日',
     '',
 ];
