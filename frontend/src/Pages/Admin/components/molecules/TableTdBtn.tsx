@@ -44,7 +44,7 @@ const TableTdBtn: React.FC<Props> = React.memo(({ id, data, setData, modalTitle,
                     return item.id !== id
                 });
                 setData(newData);
-                //最後のデータを削除した際に1つ前のページにする
+                //最後のデータを削除した際に1つ前のページに戻る
                 const shouldDecrementPage = newData.length % MAX_PAGE_COUNT === 0;
                 setPage(shouldDecrementPage ? page - 1 : page);
                 setItemOffset((page - 1) * MAX_PAGE_COUNT % newData.length);
