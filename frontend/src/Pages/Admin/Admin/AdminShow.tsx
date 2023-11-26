@@ -6,7 +6,7 @@ import { RiArrowGoBackFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 
 import useFetchShowData from "../../../hooks/useFetchShowData";
-import Admin from "../../../types/Admin";
+import {Admin} from "../../../types/Admin/Admin";
 import Icon from "../components/atoms/Icon";
 import { AdminRole } from "../../../consts/AdminConst";
 import StatusIcon from "../components/atoms/StatusIcon";

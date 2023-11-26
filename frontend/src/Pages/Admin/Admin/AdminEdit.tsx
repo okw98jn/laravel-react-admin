@@ -16,23 +16,14 @@ import UpdateValidation from "../../../Validation/Admin/Admin/UpdateValidation";
 import { useSnackbar } from "../../../Recoil/Admin/snackbarState";
 import { axiosClient } from '../../../Axios/AxiosClientProvider';
 import useFetchShowData from "../../../hooks/useFetchShowData";
+import { AdminEdit } from "../../../types/Admin/Admin";
 
-type Admin = {
-    id: number;
-    name: string;
-    login_id: string;
-    oldPassword: string;
-    password: string;
-    passwordConfirm: string;
-    status: number;
-    role: number | '';
-}
 const AdminEdit: React.FC = React.memo(() => {
     const id = useParams().id;
-    const { data: admin, isLoading, setIsLoading } = useFetchShowData<Admin>(`/api/admin/admin/${id}`);
+    const { data: admin, isLoading, setIsLoading } = useFetchShowData<AdminEdit>(`/api/admin/admin/${id}`);
     const { openSnackbar } = useSnackbar();
     const navigate = useNavigate();
-    const useFormMethods = useForm<Admin>({
+    const useFormMethods = useForm<AdminEdit>({
         defaultValues: {
             id: 0,
             name: '',
@@ -59,7 +50,7 @@ const AdminEdit: React.FC = React.memo(() => {
         }
     }, [setValue, admin])
     
-    const onSubmit: SubmitHandler<Admin> = (data: Admin) => {
+    const onSubmit: SubmitHandler<AdminEdit> = (data: AdminEdit) => {
         setIsLoading(true);
         axiosClient.post(`/api/admin/admin/update/${data.id}`, data)
             .then((res) => {

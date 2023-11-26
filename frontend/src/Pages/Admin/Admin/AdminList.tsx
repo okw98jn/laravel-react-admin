@@ -4,7 +4,7 @@ import { useRecoilState } from "recoil";
 import useFetchData from "../../../hooks/useFetchData";
 import { MAX_PAGE_COUNT } from "../../../consts/CommonConst";
 import { AdminTheadInfo } from "../../../consts/AdminConst";
-import Admin from "../../../types/Admin";
+import {Admin} from "../../../types/Admin/Admin";
 import TableHeader from "../components/molecules/TableHeader";
 import Loading from "../../components/Loading";
 import Thead from "../components/organisms/Thead";

@@ -17,22 +17,14 @@ import { useSnackbar } from "../../../Recoil/Admin/snackbarState";
 import { axiosClient } from '../../../Axios/AxiosClientProvider';
 import { loadingState } from "../../../Recoil/Admin/loading";
 import InputControl from "../../components/InputControl";
-
-type Admin = {
-    name: string;
-    login_id: string;
-    password: string;
-    passwordConfirm: string;
-    status: number;
-    role: number | '';
-}
+import { AdminNew } from "../../../types/Admin/Admin";
 
 const AdminNew: React.FC = React.memo(() => {
     const [isLoading, setIsLoading] = useRecoilState(loadingState);
     const { openSnackbar }          = useSnackbar();
     const navigate                  = useNavigate();
 
-    const useFormMethods = useForm<Admin>({
+    const useFormMethods = useForm<AdminNew>({
         defaultValues: {
             name: '',
             login_id: '',
@@ -46,7 +38,7 @@ const AdminNew: React.FC = React.memo(() => {
     });
 
     const { handleSubmit } = useFormMethods;
-    const onSubmit: SubmitHandler<Admin> = (data: Admin) => {
+    const onSubmit: SubmitHandler<AdminNew> = (data: AdminNew) => {
         setIsLoading(true);
         axiosClient.post('/api/admin/admin/admin', data)
             .then((res) => {

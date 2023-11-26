@@ -8,7 +8,7 @@ import Icon from '../atoms/Icon';
 import { FiEdit, FiInfo, FiTrash2 } from 'react-icons/fi';
 import ConfirmModal from '../../../components/ConfirmModal';
 import { useSnackbar } from '../../../../Recoil/Admin/snackbarState';
-import Admin from '../../../../types/Admin';
+import {Admin} from '../../../../types/Admin/Admin';
 import { axiosClient } from '../../../../Axios/AxiosClientProvider';
 import { itemOffsetState, pageState } from '../../../../Recoil/Admin/Admin/paginateState';
 import { loadingState } from '../../../../Recoil/Admin/loading';
